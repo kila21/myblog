@@ -1,0 +1,15 @@
+
+# ------- Global ---------
+
+.env
+*.env
+*.log
+*.sqlite3
+__pycache../
+*.py[cod]
+
+
+# ------ Pyton ----------
+
+.venv/
+venv/

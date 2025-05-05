@@ -7,3 +7,9 @@ class UsersConfig(AppConfig):
 
     def ready(self):
         import users.signals
+
+
+## super user
+
+## kila
+## kila123

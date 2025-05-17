@@ -17,8 +17,17 @@ class PostSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField()
 
     def get_likes_count(self, obj):
-        return obj.liked_posts.count()
+        return obj.likes.count()
     
     class Meta:
         model = api_models.Post
         fields = '__all__'
+    
+class PostCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = api_models.Post
+        exclude = ['author', 'slug', 'likes', 'view', 'tags']
+
+    def create(self, validated_data):
+        return api_models.Post.objects.create(**validated_data)

@@ -55,3 +55,16 @@ class PostDeleteApiView(generics.DestroyAPIView):
         obj = get_object_or_404(api_models.Post, slug=slug)
         self.check_object_permissions(self.request, obj)
         return obj
+    
+
+# Comments
+
+### get all comment
+class CommentsListAPIView(generics.ListAPIView):
+    serializer_class = api_serializers.CommentSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        post = get_object_or_404(api_models.Post, slug=slug)
+        return post.comments.all().order_by('-created_at')

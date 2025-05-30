@@ -38,3 +38,10 @@ class PostDetailAPIView(generics.RetrieveUpdateAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
+# authenticated user posts
+class UserPostsListView(generics.ListAPIView):
+    serializer_class = api_serializers.PostSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return api_models.Post.objects.filter(author=self.request.user).order_by('-date')

@@ -24,10 +24,19 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
 class PostCreateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = api_models.Post
         exclude = ['author', 'slug', 'likes', 'view', 'tags']
 
     def create(self, validated_data):
         return api_models.Post.objects.create(**validated_data)
+    
+# Comments Serializers
+
+class CommentSerializer(serializers.ModelSerializer):
+    author_username = serializers.CharField(source='author.username', read_only=True)
+
+    class Meta:
+        model = api_models.Comment
+        fields = ['author', 'author_username', 'post', 'text', 'created_at']
+        read_only_fields = ['author', 'created_at']

@@ -5,6 +5,9 @@ from rest_framework import generics
 from api import models as api_models
 from api import serializers as api_serializers
 
+# custom permision
+from api.permissions import IsAuthorOrReadOnly
+
 
 # Post Serializers
 class PostListAPIView(generics.ListAPIView):
@@ -24,10 +27,14 @@ class PostCreateAPIView(generics.CreateAPIView):
         return serializer.save(author=self.request.user)
     
 class PostDetailAPIView(generics.RetrieveUpdateAPIView):
+    # queryset = api_models.Post.objects.all()
     serializer_class = api_serializers.PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthorOrReadOnly]
+    # lookup_field = 'slug'
 
     def get_object(self):
         slug = self.kwargs['slug']
-        return get_object_or_404(api_models.Post, slug=slug)
+        obj = get_object_or_404(api_models.Post, slug=slug)
+        self.check_object_permissions(self.request, obj)
+        return obj
 

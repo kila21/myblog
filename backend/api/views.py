@@ -45,3 +45,13 @@ class UserPostsListView(generics.ListAPIView):
 
     def get_queryset(self):
         return api_models.Post.objects.filter(author=self.request.user).order_by('-date')
+    
+class PostDeleteApiView(generics.DestroyAPIView):
+    serializer_class = api_serializers.PostSerializer
+    permission_classes = [IsAuthorOrReadOnly]
+
+    def get_object(self):
+        slug = self.kwargs['slug']
+        obj = get_object_or_404(api_models.Post, slug=slug)
+        self.check_object_permissions(self.request, obj)
+        return obj

@@ -1,13 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
-import shortuuid
-
 from django.conf import settings
 
+import shortuuid
+
 from users import models as users_models
-
-## category and post
-
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
@@ -51,3 +48,15 @@ class Post(models.Model):
     
     class Meta:
         verbose_name_plural = 'Post'
+
+class Comment(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.author.username} - {self.text[:15]}..."
+
+    class Meta:
+        verbose_name_plural = 'Comment'

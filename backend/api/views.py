@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import generics
 
@@ -16,6 +16,7 @@ class PostListAPIView(generics.ListAPIView):
     
 
 class PostCreateAPIView(generics.CreateAPIView):
+    queryset = api_models.Post.objects.all()
     serializer_class = api_serializers.PostCreateSerializer
     permission_classes = [IsAuthenticated]
 
@@ -27,7 +28,6 @@ class PostDetailAPIView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_object(self):
-        slug = self.kwargs.get('slug')
-        post = api_models.Post.objects.get(slug=slug)
-        return post
+        slug = self.kwargs['slug']
+        return get_object_or_404(api_models.Post, slug=slug)
 

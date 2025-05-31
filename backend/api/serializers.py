@@ -35,7 +35,6 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author_username = serializers.CharField(source='author.username', read_only=True)
-
     class Meta:
         model = api_models.Comment
         fields = ['author', 'author_username', 'post', 'text', 'created_at']

@@ -12,5 +12,6 @@ urlpatterns = [
      path('posts/delete/<slug:slug>/', api_views.PostDeleteApiView.as_view(), name='post-delete'),
 
      ## comments
-     path('comments/<slug:slug>/', api_views.CommentsListAPIView.as_view(), name='post-comments')
+     path('comments/create/', api_views.CommentCreateAPIView.as_view(), name='create-comment'),
+     path('comments/post/<slug:slug>/', api_views.CommentsListAPIView.as_view(), name='post-comments')
 ]

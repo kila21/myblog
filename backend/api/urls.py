@@ -13,5 +13,6 @@ urlpatterns = [
 
      ## comments
      path('comments/create/', api_views.CommentCreateAPIView.as_view(), name='create-comment'),
-     path('comments/post/<slug:slug>/', api_views.CommentsListAPIView.as_view(), name='post-comments')
+     path('comments/user-comments/', api_views.UserCommentsListView.as_view(), name='user-comments'),
+     path('comments/post/<slug:slug>/', api_views.CommentsListAPIView.as_view(), name='post-comments'),
 ]

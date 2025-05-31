@@ -59,7 +59,7 @@ class PostDeleteApiView(generics.DestroyAPIView):
 
 # Comments
 
-### get all comment
+### get all comment of post
 class CommentsListAPIView(generics.ListAPIView):
     serializer_class = api_serializers.CommentSerializer
     permission_classes = [AllowAny]
@@ -68,7 +68,7 @@ class CommentsListAPIView(generics.ListAPIView):
         slug = self.kwargs['slug']
         post = get_object_or_404(api_models.Post, slug=slug)
         return post.comments.all().order_by('-created_at')
-    
+
 class CommentCreateAPIView(generics.CreateAPIView):
     serializer_class = api_serializers.CommentSerializer
     permission_classes = [IsAuthenticated]
@@ -76,3 +76,13 @@ class CommentCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         print(serializer)
         return serializer.save(author=self.request.user)
+    
+### user comments
+class UserCommentsListView(generics.ListAPIView):
+    serializer_class = api_serializers.CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return api_models.Comment.objects.filter(author=self.request.user)
+    
+

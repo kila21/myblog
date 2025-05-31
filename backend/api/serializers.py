@@ -27,9 +27,6 @@ class PostCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = api_models.Post
         exclude = ['author', 'slug', 'likes', 'view', 'tags']
-
-    def create(self, validated_data):
-        return api_models.Post.objects.create(**validated_data)
     
 # Comments Serializers
 

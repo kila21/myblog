@@ -6,10 +6,17 @@
 @layer base {
     body {
         font-family: "Geist Mono", monospace;
+        background-color: #111111;
+        color: white;
     }
-}
+
+    li {
+        list-style: none;
+    }
+};
 
 
 @theme {
     --color-lightgrey: #7F8080;
-}
+    --color-Mainbg: #111111;
+};

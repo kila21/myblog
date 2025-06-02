@@ -8,7 +8,7 @@ export const CategoryDropdown = () => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <MenuButton className="inline-flex w-65 h-12 items-center justify-around gap-x-1.5 rounded-md  px-3 py-2 text-sm text-left font-semibold text-white shadow-xs border border-[#333333] ">
+        <MenuButton className="inline-flex w-65 h-12 items-center justify-between gap-x-1.5 rounded-md  px-3 py-2 text-sm text-left font-semibold text-white shadow-xs border border-[#333333] ">
           { categoryValue }
           <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-white" />
         </MenuButton>

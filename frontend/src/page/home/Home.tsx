@@ -1,3 +1,4 @@
+import { Card } from "../../components/common/Card"
 import { CategoryDropdown } from "./CategoryDropdown"
 
 export const Home = () => {
@@ -12,11 +13,19 @@ export const Home = () => {
             </main>
 
             {/* category filtration */}
-            <section className="w-full h-full flex flex-col justify-center items-center mt-5">
+            <section className="w-full flex flex-col justify-center items-center mt-5">
                 <div>
-                    <h3 className="text-left mb-1">Categories</h3>
+                    <h2 className="text-left mb-1">Categories</h2>
                     <CategoryDropdown />
                 </div>
+            </section>
+
+            {/* top post */}
+            <section className="w-full flex flex-wrap gap-10 p-10 justify-between">
+                <Card />
+                <Card />
+                <Card />
+                <Card />
             </section>
         </>
     )

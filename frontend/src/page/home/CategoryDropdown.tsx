@@ -8,7 +8,7 @@ export const CategoryDropdown = () => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <MenuButton className="inline-flex w-65 h-12 items-center justify-between gap-x-1.5 rounded-md  px-3 py-2 text-sm text-left font-semibold text-white shadow-xs border border-[#333333] ">
+        <MenuButton className="inline-flex w-65 h-12 items-center justify-between gap-x-1.5 rounded-md  px-3 py-2 text-sm text-left font-semibold text-white shadow-xs border border-[#333333]">
           { categoryValue }
           <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-white" />
         </MenuButton>
@@ -16,7 +16,7 @@ export const CategoryDropdown = () => {
 
       <MenuItems
         transition
-        className="absolute right-0 z-10 mt-2 w-65 origin-top-right rounded-md shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+        className="absolute right-0 z-10 mt-2 w-65 origin-top-right border border-[#333333] font-bold rounded-md shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         <div className="py-1">
           <MenuItem>

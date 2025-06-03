@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { Input } from "../common/Input"
 import { Button } from "../common/Button"
 
-import type { LoginFormDataType } from "../../types/auth/LoginForm"
+import type { LoginFormDataType } from "../../types/auth/LoginFormData"
 
 export const LoginForm = () =>{
     const [remember, setRemember] = useState(false)

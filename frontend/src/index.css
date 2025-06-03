@@ -8,6 +8,8 @@
         font-family: "Geist Mono", monospace;
         background-color: #111111;
         color: white;
+        width: 100vw;
+        height: 100vh;
     }
 
     li {

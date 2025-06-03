@@ -1,9 +1,6 @@
-import { forwardRef, type ButtonHTMLAttributes, type Ref } from "react";
+import { forwardRef, type Ref } from "react";
 
-export type ButtonPropsType = {
-    variant: "auth" | "post";
-    loading: boolean;
-} & ButtonHTMLAttributes<HTMLButtonElement>
+import type { ButtonPropsType } from "../../types/props/ButtonPropsType";
 
 export const Button = forwardRef((props: ButtonPropsType, ref: Ref<HTMLButtonElement>) => {
     const {className, type, children, ...buttonprops} = props

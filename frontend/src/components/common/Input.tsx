@@ -1,8 +1,8 @@
 import { forwardRef, type Ref } from "react";
 
-import type { InputProps } from "../../types/props/InputProps";
+import type { InputPropsType } from "../../types/props/InputPropsType";
 
-export const Input = forwardRef((props: InputProps, ref: Ref<HTMLInputElement>) => {
+export const Input = forwardRef((props: InputPropsType, ref: Ref<HTMLInputElement>) => {
     const { label, error, ...inputProps} = props
 
     return (

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Card } from "../../components/common/Card"
 import { CategoryDropdown } from "./CategoryDropdown"
 import { getTopPosts } from "../../services/commonService"
-import type { PostResponseType } from "../../types/post/postResponse"
+import type { PostResponseType } from "../../types/post/PostResponse"
 import { formatDate } from "../../utils/date"
 
 export const Home = () => {
@@ -50,6 +50,7 @@ export const Home = () => {
                     title={post.title} 
                     img={post.image} 
                     date={formatDate(post.date)}
+                    slug={post.slug}
                     />
                 })}
             </section>

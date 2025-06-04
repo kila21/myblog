@@ -7,11 +7,13 @@ import { Button } from "../common/Button"
 import type { LoginFormDataType } from "../../types/auth/LoginFormData"
 import { loginUser } from "../../services/authService"
 import { setAuthUser } from "../../utils/auth"
+import { useNavigate } from "react-router-dom"
 
 
 export const LoginForm = () =>{
     const [remember, setRemember] = useState(false)
     const [value, setValue] = useState('')
+    const navigate = useNavigate()
 
     // form
     const {register, handleSubmit, formState: {errors}} = useForm<LoginFormDataType>()
@@ -27,6 +29,7 @@ export const LoginForm = () =>{
                 }else{
                     localStorage.removeItem('username')
                 }
+                navigate('/')
             }
         } catch (err) {
             console.log(err)

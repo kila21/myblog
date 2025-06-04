@@ -9,13 +9,15 @@ import MainLayout from './components/layout/MainLayout.tsx'
 import { Home } from './page/home/Home.tsx'
 import { Login } from './page/auth/Login.tsx'
 import { Register } from './page/auth/Register.tsx'
+import { DetailPost } from './page/posts/DetailPost.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/', 
     element: <MainLayout />, 
     children:[
-      {path: '/', element: <Home />}
+      {path: '/', element: <Home />},
+      {path: '/post/:slug', element: <DetailPost />}
     ]
   },
   {path: '/login', element: <Login />},

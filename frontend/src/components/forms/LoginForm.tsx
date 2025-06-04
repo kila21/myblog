@@ -5,6 +5,9 @@ import { Input } from "../common/Input"
 import { Button } from "../common/Button"
 
 import type { LoginFormDataType } from "../../types/auth/LoginFormData"
+import { loginUser } from "../../services/authService"
+import { setAuthUser } from "../../utils/auth"
+
 
 export const LoginForm = () =>{
     const [remember, setRemember] = useState(false)
@@ -13,13 +16,21 @@ export const LoginForm = () =>{
     // form
     const {register, handleSubmit, formState: {errors}} = useForm<LoginFormDataType>()
 
-    const onFormSubmit = (data: LoginFormDataType) => {
-        console.log(data)
-        if (remember) {
-            localStorage.setItem('username', data.username)
-        }else{
-            localStorage.removeItem('username')
-        }
+    const onFormSubmit = async (data: LoginFormDataType) => {
+        try {
+            const response = await loginUser(data)
+            if (response) {
+                setAuthUser(response.data.access, response.data.refresh)
+
+                if (remember) {
+                    localStorage.setItem('username', data.username)
+                }else{
+                    localStorage.removeItem('username')
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }  
     }
 
     useEffect(() => {
@@ -47,7 +58,7 @@ export const LoginForm = () =>{
             type='password' 
             label="Password"
             {...register('password', {
-                minLength: {value: 8, message: 'Password must be at least  8 character'},
+                minLength: {value: 6, message: 'Password must be at least  8 character'},
                 required: true
             })}
             error={errors.password?.message}

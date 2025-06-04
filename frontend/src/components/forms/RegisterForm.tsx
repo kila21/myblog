@@ -1,17 +1,27 @@
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 
 import type { RegisterFormDataType } from "../../types/auth/RegisterFormData"
 import { Input } from "../common/Input"
 import { Button } from "../common/Button"
+import { registerUser } from "../../services/authService"
 
 
 export const RegisterForm = () => {
     const {register, handleSubmit, watch, formState: { errors }} = useForm<RegisterFormDataType>()
 
     const pass = watch('password')
+    const navigate = useNavigate()
 
-    const onFormSubmit = (data: RegisterFormDataType) => {
-        console.log(data)
+    const onFormSubmit = async (data: RegisterFormDataType) => {
+        try {
+            const response = await registerUser(data)
+            if (response) {
+                navigate('/login')
+            }
+        } catch ( err ) {
+            console.log(err)
+        }
     }
     return (
         <form onSubmit={handleSubmit(onFormSubmit)} className="sm:w-100 w-70 2xl:w-120 h-auto flex flex-col justify-center gap-10">

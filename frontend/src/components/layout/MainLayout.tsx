@@ -9,7 +9,7 @@ const MainLayout = () => {
     return (
         <>
             <Header />
-            <div className="w-auto h-auto mt-15">
+            <div className="w-full h-auto mt-15">
                 <Outlet />
             </div>
             <Footer />

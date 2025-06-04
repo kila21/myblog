@@ -1,7 +1,29 @@
+import { useEffect, useState } from "react"
 import { Card } from "../../components/common/Card"
 import { CategoryDropdown } from "./CategoryDropdown"
+import { getTopPosts } from "../../services/commonService"
+import type { PostResponseType } from "../../types/post/postResponse"
+import { formatDate } from "../../utils/date"
 
 export const Home = () => {
+    const [posts, setPosts] = useState<PostResponseType[]>()
+
+    const fetchPosts = async () => {
+        try {
+            const response = await getTopPosts()
+            if (response) {
+                const data = response.data
+                setPosts(data)
+            }
+        }catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        fetchPosts()
+    }, [])
+
     return (
         <>
             <main id="main-content" className="flex justify-center text-center">
@@ -21,11 +43,15 @@ export const Home = () => {
             </section>
 
             {/* top post */}
-            <section className="w-full flex flex-wrap gap-10 p-10 justify-between">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+            <section className="w-full flex flex-wrap gap-10 p-10 justify-center md:justify-between mt-10">
+                { posts && posts.map((post: PostResponseType) => {
+                    return <Card 
+                    key={post.slug + '-' + post.id + '-' + post.author} 
+                    title={post.title} 
+                    img={post.image} 
+                    date={formatDate(post.date)}
+                    />
+                })}
             </section>
         </>
     )

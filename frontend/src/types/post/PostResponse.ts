@@ -10,6 +10,7 @@ export type PostResponseType = {
     slug: string,
     date: string,
     author: number,
+    author_username: string,
     category: number,
     likes: number[]
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { getUserData } from "../../services/authService"
 import type { ProfileResponseType } from "../../types/auth/ProfileResponse"
 import { Facebook, Twitter } from "lucide-react"
@@ -8,23 +8,21 @@ import { ProfilePosts } from "./ProfilePosts"
 
 
 export const Profile = () => {
-    const location = useLocation()
+    const params = useParams()
 
     const [profileData, setProfileData] = useState<ProfileResponseType>()
 
-    const fetchUser = async () => {
-        const user_id = location.state
+    const fetchUser = async (username: string) => {
         try {
-            const response = await getUserData(user_id)
+            const response = await getUserData(username)
             setProfileData(response.data)
-            console.log(response.data)
         }catch (err) {
             console.log(err)
         }
     }
 
     useEffect(() => {
-        fetchUser()
+        fetchUser(params.username!)
     }, [])
 
 

@@ -10,14 +10,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    full_name = serializers.CharField(source='user.full_name', read_only=True)
+    username = serializers.CharField(source='user.username', read_only=True)
+    email = serializers.CharField(source='user.email', read_only=True)
     class Meta:
         model = Profile
         fields = "__all__"
 
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['user'] = UserSerializer(instance.user).data
-        return response
+    # def to_representation(self, instance):
+    #     response = super().to_representation(instance)
+    #     response['user'] = UserSerializer(instance.user).data.em
+    #     return response
     
 ## Register Serializer
 
@@ -35,10 +38,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
     
     def create(self, validated_data):
+        full = validated_data.get('full_name') or ''
         user = User.objects.create(
             email=validated_data['email'],
             username=validated_data['username'],
-            full_name=validated_data['full_name']
+            full_name=full
         )
         user.set_password(validated_data['password'])
         user.save()

@@ -60,8 +60,14 @@ export const DetailPost = () => {
                         </div>
                     </div>
                 </section>
-                <p className="text-lightgrey text:sm mt-2 pb-2 border-b-1">Author: {postData?.author_username}</p>
-                <p className="text-lightgrey text:sm mt-2 pb-2 border-b-1">created At: {postData && formatDate(postData?.date)}</p>
+                <p className="text-lightgrey text:sm mt-2 pb-2 border-b-1">
+                    Author: <span className="font-bold text-white cursor-pointer">{ postData?.author_username } 
+
+                    </span>
+                </p>
+                <p className="text-lightgrey text:sm mt-2 pb-2 border-b-1">
+                    Created At: <span className="text-white font-semibold">{postData && formatDate(postData?.date)} </span>
+                </p>
             </main>
             
             

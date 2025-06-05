@@ -61,8 +61,8 @@ export const DetailPost = () => {
                     </div>
                 </section>
                 <p className="text-lightgrey text:sm mt-2 pb-2 border-b-1">
-                    Author: <span className="font-bold text-white cursor-pointer">{ postData?.author_username } 
-
+                    Author: <span className="font-bold text-white cursor-pointer" 
+                    onClick={() => navigate(`/profile/${postData?.author_username}`, {state: postData?.author})}>{ postData?.author_username } 
                     </span>
                 </p>
                 <p className="text-lightgrey text:sm mt-2 pb-2 border-b-1">

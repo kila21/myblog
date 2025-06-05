@@ -10,6 +10,7 @@ import { Home } from './page/home/Home.tsx'
 import { Login } from './page/auth/Login.tsx'
 import { Register } from './page/auth/Register.tsx'
 import { DetailPost } from './page/posts/DetailPost.tsx'
+import { Profile } from './page/profile/Profile.tsx'
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
     element: <MainLayout />, 
     children:[
       {path: '/', element: <Home />},
-      {path: '/post/:slug', element: <DetailPost />}
+      {path: '/post/:slug', element: <DetailPost />},
+      {path: '/profile/:username', element: <Profile />}
     ]
   },
   {path: '/login', element: <Login />},

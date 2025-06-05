@@ -15,6 +15,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField()
+    author_username = serializers.CharField(source='author.username', read_only=True)
 
     def get_likes_count(self, obj):
         return obj.likes.count()

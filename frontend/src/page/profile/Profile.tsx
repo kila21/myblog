@@ -64,9 +64,14 @@ export const Profile = () => {
                         Joined: <span>{profileData?.date && formatDate(profileData?.date)}</span>
                     </p>
                     {/* // bio */}
-                    <p className="text-sm text-lightgrey">
-                        "{profileData?.bio}"
-                    </p>
+                    {profileData?.bio && 
+                        <div className="flex flex-col items-center gap-3 min-h-10 w-60 md:w-100 border-b-1 border-lightgrey rounded-md pb-5">
+                            <h2 className="text-white text-sm">bio</h2>
+                            <p className="text-sm text-lightgrey">
+                                "${profileData?.bio}"
+                            </p>
+                        </div>
+                    }
                 </div>
             </main>
         </div>

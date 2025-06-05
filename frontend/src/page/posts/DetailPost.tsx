@@ -4,7 +4,7 @@ import { getDetailPost } from "../../services/commonService"
 import type { PostResponseType } from "../../types/post/PostResponse"
 import { formatDate } from "../../utils/date"
 
-import { Eye, Heart } from "lucide-react"
+import { ArrowLeft, Eye, Heart } from "lucide-react"
 
 
 export const DetailPost = () => {
@@ -35,6 +35,10 @@ export const DetailPost = () => {
 
     return (
         <>
+            <span className="mt-20 mb-5 ml-5 w-20 flex gap-1 cursor-pointer" onClick={() => navigate(-1)}>
+                <ArrowLeft color="white"/>
+                <span>back</span>
+            </span>
             <main className="flex flex-col items-center px-5">
                 <h1 className="text-bold uppercase mb-5">{postData?.title}</h1>
                 <hr className="gradiant-main h-0.5 w-25 border-none"/>
@@ -63,6 +67,7 @@ export const DetailPost = () => {
             
 
             <section className="flex flex-col px-5 my-10 md:px-10 ">
+                {postData?.tags && <h3 className="py-3">#{postData?.tags}</h3>}
                 <p className="text-md text-lightgrey break-words">
                     {postData?.description}
                 </p>

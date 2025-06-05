@@ -75,7 +75,7 @@ export const Profile = () => {
             </main>
 
             {profileData && <section className="w-full px-10 mt-5">
-                    <ProfilePosts user_id={profileData?.user} username={profileData?.username}/>
+                    <ProfilePosts username={profileData?.username}/>
             </section>}
         </div>
     )

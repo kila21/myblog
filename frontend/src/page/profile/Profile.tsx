@@ -4,6 +4,7 @@ import { getUserData } from "../../services/authService"
 import type { ProfileResponseType } from "../../types/auth/ProfileResponse"
 import { Facebook, Twitter } from "lucide-react"
 import { formatDate } from "../../utils/date"
+import { ProfilePosts } from "./ProfilePosts"
 
 
 export const Profile = () => {
@@ -74,6 +75,10 @@ export const Profile = () => {
                     }
                 </div>
             </main>
+
+            {profileData && <section className="w-full px-10 mt-5">
+                    <ProfilePosts user_id={profileData?.user} username={profileData?.username}/>
+            </section>}
         </div>
     )
 }

@@ -16,6 +16,6 @@ export const registerUser = (data: RegisterFormDataType): Promise<AxiosResponse<
     return api.post('/users/register/', data)
 }
 
-export const getUserData = (id: number): Promise<AxiosResponse<ProfileResponseType>> => {
-    return api.get(`/users/profile/${id}/`)
+export const getUserData = (username: string): Promise<AxiosResponse<ProfileResponseType>> => {
+    return api.get(`/users/profile/${username}/`)
 }

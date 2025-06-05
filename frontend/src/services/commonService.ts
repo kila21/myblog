@@ -17,6 +17,6 @@ export const getDetailPost = (slug: string): Promise<AxiosResponse<PostResponseT
 }
 
 // get user all post as list,by user id
-export const getUserPosts = (id: number): Promise<AxiosResponse<PostResponseType[]>> => {
-    return api.get(`/api/posts/user-posts/${id}/`)
+export const getUserPosts = (username: string): Promise<AxiosResponse<PostResponseType[]>> => {
+    return api.get(`/api/posts/user-posts/${username}/`)
 }

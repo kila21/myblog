@@ -10,5 +10,5 @@ urlpatterns = [
 
      # users
      path('register/', users_views.RegisterView.as_view()),
-     path('profile/<user_id>/', users_views.ProfileView.as_view()),
+     path('profile/<username>/', users_views.ProfileView.as_view()),
 ]

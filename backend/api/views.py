@@ -44,8 +44,8 @@ class UserPostsListView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        user_id = self.kwargs['user_id']
-        return api_models.Post.objects.filter(author=user_id).order_by('-date')
+        user_username = self.kwargs['username']
+        return api_models.Post.objects.filter(author__username=user_username).order_by('-date')
     
 class PostDeleteApiView(generics.DestroyAPIView):
     serializer_class = api_serializers.PostSerializer

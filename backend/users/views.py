@@ -13,8 +13,8 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = [AllowAny]
 
     def get_object(self):
-        user_id = self.kwargs['user_id']
-        profile = users_models.Profile.objects.get(user__id=user_id)
+        user_username = self.kwargs['username']
+        profile = users_models.Profile.objects.get(user__username=user_username)
         return profile
     
 ## Register View

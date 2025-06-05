@@ -38,13 +38,14 @@ class PostDetailAPIView(generics.RetrieveUpdateAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
-# authenticated user posts
+# get user posts by user id
 class UserPostsListView(generics.ListAPIView):
     serializer_class = api_serializers.PostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return api_models.Post.objects.filter(author=self.request.user).order_by('-date')
+        user_id = self.kwargs['user_id']
+        return api_models.Post.objects.filter(author=user_id).order_by('-date')
     
 class PostDeleteApiView(generics.DestroyAPIView):
     serializer_class = api_serializers.PostSerializer

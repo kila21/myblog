@@ -21,9 +21,33 @@ class ProfileSerializer(serializers.ModelSerializer):
     #     response = super().to_representation(instance)
     #     response['user'] = UserSerializer(instance.user).data.em
     #     return response
+
+# user profile update
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', required=False)
+    email = serializers.EmailField(source='user.email', required=False)
+    full_name = serializers.CharField(source='user.full_name', required=False)
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', {})
+
+        user = instance.user
+        for attr, value in user_data.items():
+            print('user', attr, value)
+            setattr(user, attr, value)
+        user.save()
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        return instance
+
     
 ## Register Serializer
-
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, style={'input_type': 'password'}, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, style={'input_type': 'password'})
@@ -48,3 +72,4 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
     
         return user
+    

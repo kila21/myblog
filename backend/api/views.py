@@ -87,3 +87,9 @@ class UserCommentsListView(generics.ListAPIView):
         return api_models.Comment.objects.filter(author=self.request.user)
     
 
+### category
+
+class CategoryListApiView(generics.ListAPIView):
+    serializer_class = api_serializers.CategorySerializer
+    permission_classes = [AllowAny]
+    queryset = api_models.Category.objects.all()

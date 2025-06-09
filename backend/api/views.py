@@ -47,6 +47,15 @@ class UserPostsListView(generics.ListAPIView):
         user_username = self.kwargs['username']
         return api_models.Post.objects.filter(author__username=user_username).order_by('-date')
     
+# get posts by category
+class PostsFilterByCategory(generics.ListAPIView):
+    serializer_class = api_serializers.PostSerializer
+    permission_classes = [AllowAny]
+    
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        return api_models.Post.objects.filter(category__slug=slug)
+    
 class PostDeleteApiView(generics.DestroyAPIView):
     serializer_class = api_serializers.PostSerializer
     permission_classes = [IsAuthorOrReadOnly]
@@ -93,3 +102,4 @@ class CategoryListApiView(generics.ListAPIView):
     serializer_class = api_serializers.CategorySerializer
     permission_classes = [AllowAny]
     queryset = api_models.Category.objects.all()
+

@@ -18,5 +18,6 @@ urlpatterns = [
      path('comments/post/<slug:slug>/', api_views.CommentsListAPIView.as_view(), name='post-comments'),
 
      ## category
-     path('category/', api_views.CategoryListApiView.as_view(), name='category-all')
+     path('category/', api_views.CategoryListApiView.as_view(), name='category-all'),
+     path('category/<slug:slug>/', api_views.PostsFilterByCategory.as_view(), name='posts-by-category'),
 ]

@@ -51,9 +51,19 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ['email', 'username', 'full_name', 'password', 'password2']
 
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError('Email is already in use.')
+        return value
+    
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError('Username is already in taken.')
+        return value
+
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError('Passwords do not match!')
+            raise serializers.ValidationError({'password2': 'Passwords should match.'})
         return attrs
     
     def create(self, validated_data):

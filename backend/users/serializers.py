@@ -17,11 +17,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = "__all__"
 
-    # def to_representation(self, instance):
-    #     response = super().to_representation(instance)
-    #     response['user'] = UserSerializer(instance.user).data.em
-    #     return response
-
 # user profile update
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', required=False)
@@ -73,3 +68,21 @@ class RegisterSerializer(serializers.ModelSerializer):
     
         return user
     
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+
+        if not user.check_password(value):
+            raise serializers.ValidationError('Old Password is incorrect')
+        return value
+    
+    def validate(self, data):
+        if data['new_password'] != data['confirm_password']:
+            raise serializers.ValidationError('Password Should match')
+        
+        validate_password(data['new_password'], self.context['request'].user)
+        return data

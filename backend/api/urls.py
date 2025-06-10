@@ -20,4 +20,8 @@ urlpatterns = [
      ## category
      path('category/', api_views.CategoryListApiView.as_view(), name='category-all'),
      path('category/<slug:slug>/', api_views.PostsFilterByCategory.as_view(), name='posts-by-category'),
+
+     ## bookmarks
+     path('bookmark/<str:username>/all/', api_views.BookmarkedPostsView.as_view(), name='user-bookmarks'),
+     path('bookmark/<slug:slug>/', api_views.ToggleBookmarkView.as_view(), name='toggle-bookmark'),
 ]

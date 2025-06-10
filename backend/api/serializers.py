@@ -15,12 +15,19 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
     author_username = serializers.CharField(source='author.username', read_only=True)
     is_bookmarked = serializers.SerializerMethodField()
     bookmarkes_count = serializers.SerializerMethodField()
 
     def get_likes_count(self, obj):
         return obj.likes.count()
+    
+    def get_is_liked(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return user in obj.likes.all()
+        return False
     
     def get_bookmarkes_count(sef, obj):
         return obj.bookmarked_by.count()

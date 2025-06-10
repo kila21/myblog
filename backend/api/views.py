@@ -68,8 +68,32 @@ class PostDeleteApiView(generics.DestroyAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
     
-# Bookmark
+# Likes
+### user liked posts
+class LikedPostsView(generics.ListAPIView):
+    serializer_class = api_serializers.PostSerializer
+    permission_classes = [AllowAny]
 
+    def get_queryset(self):
+        username = self.kwargs['username']
+        user = users_models.User.objects.get(username=username)
+        return user.liked_posts.all()
+    
+class ToggleLikeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, slug):
+        user = request.user
+        post = api_models.Post.objects.get(slug=slug)
+
+        if user in post.likes.all():
+            post.likes.remove(user)
+            return Response({'likes': 'Unliked Succesfully.'}, status=status.HTTP_200_OK)
+        else:
+            post.likes.add(user)
+            return Response({'likes': 'Liked Succesfuly.'}, status=status.HTTP_200_OK)
+    
+# Bookmark
 ### user bookmarked posts
 class BookmarkedPostsView(generics.ListAPIView):
     serializer_class = api_serializers.PostSerializer

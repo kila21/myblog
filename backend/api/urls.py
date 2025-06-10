@@ -24,4 +24,8 @@ urlpatterns = [
      ## bookmarks
      path('bookmark/<str:username>/all/', api_views.BookmarkedPostsView.as_view(), name='user-bookmarks'),
      path('bookmark/<slug:slug>/', api_views.ToggleBookmarkView.as_view(), name='toggle-bookmark'),
+
+     #likes
+     path('likes/<str:username>/all/', api_views.LikedPostsView.as_view(), name='user-liked-posts'),
+     path('likes/<slug:slug>/', api_views.ToggleLikeView.as_view(), name='toggle-like-post'),
 ]

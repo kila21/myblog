@@ -1,9 +1,11 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import generics
+from rest_framework.views import Response, APIView, status
 
 from api import models as api_models
 from api import serializers as api_serializers
+from users import models as users_models
 
 # custom permision
 from api.permissions import IsAuthorOrReadOnly
@@ -66,9 +68,33 @@ class PostDeleteApiView(generics.DestroyAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
     
+# Bookmark
+
+### user bookmarked posts
+class BookmarkedPostsView(generics.ListAPIView):
+    serializer_class = api_serializers.PostSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        user = users_models.User.objects.get(username=username)
+        return user.bookmarked_posts.all()
+
+class ToggleBookmarkView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, slug):
+        user = request.user
+        post = api_models.Post.objects.get(slug=slug)
+
+        if user in post.bookmarked_by.all():
+            post.bookmarked_by.remove(user)
+            return Response({'bookmarked': 'Bookmark Removed Succesfully.'}, status=status.HTTP_200_OK)
+        else:
+            post.bookmarked_by.add(user)
+            return Response({'bookmarked': 'Bookmark add Succesfully.'}, status=status.HTTP_200_OK)
 
 # Comments
-
 ### get all comment of post
 class CommentsListAPIView(generics.ListAPIView):
     serializer_class = api_serializers.CommentSerializer

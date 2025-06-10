@@ -29,6 +29,7 @@ class Post(models.Model):
     description = models.TextField(null=True, blank=True)
     tags = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts')
+    bookmarked_by = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='bookmarked_posts')
     view = models.IntegerField(default=0)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='liked_posts')
     slug = models.SlugField(unique=True, blank=True, null=True)

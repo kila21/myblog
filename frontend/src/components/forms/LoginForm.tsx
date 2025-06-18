@@ -72,13 +72,13 @@ export const LoginForm = () =>{
             {/* remember me checkbox and forgot pass */}
             <div className="w-full flex justify-between">
                 <div className=" flex items-center gap-x-1">
-                    <input onClick={() => setRemember(!remember)} type="checkbox" name="remember" id="remember" className=" w-4 h-4"/>
+                    <input defaultChecked={value ? true : false} onClick={() => setRemember(!remember)} type="checkbox" name="remember" id="remember" className=" w-4 h-4"/>
                     <label htmlFor="remember" className="text-sm text-slate-400">Remember me</label>
                 </div>
 
                 <div className="flex gap-3">
-                    <a href="#" className="text-sm text-slate-400 hover:text-blue-500">Forgot?</a>
-                    <a href="/register" className="text-sm text-slate-400 hover:text-blue-500">Register</a>
+                    <a href="#" className="text-sm text-slate-400 hover:text-blue-500 underline">Forgot?</a>
+                    <a href="/register" className="text-sm text-slate-400 hover:text-blue-500 underline">Register</a>
                 </div>
             </div>
 

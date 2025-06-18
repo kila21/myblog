@@ -72,8 +72,14 @@ export const RegisterForm = () => {
                 aria-describedby={errors.password2? 'error' : undefined}
             />
 
+            <div className="w-full flex justify-end">
+                <div className="flex gap-3">
+                    <a href="/login" className="text-sm text-slate-400 hover:text-blue-500 underline">Login</a>
+                </div>
+            </div>
+
             <div className="w-full">
-                <Button type="submit" variant="auth" loading='false' className="w-full cursor-pointer">Login</Button>
+                <Button type="submit" variant="auth" loading='false' className="w-full cursor-pointer">Register</Button>
             </div>
         </form>
     )

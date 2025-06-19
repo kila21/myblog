@@ -32,11 +32,10 @@ export const Profile = () => {
                 {/* user image, bio  */}
                 <div className="w-full md:w-1/2 flex flex-col items-center gap-2">
                     <div className='w-50 h-50 rounded-full overflow-hidden border border-grey-300 shadow-sm'>
-                        <img className='w-full h-full object-cover bg-white' src='' alt=''/>
+                        <img className='w-full h-full object-cover bg-white' src={profileData?.image || '/default-profile.jpg'} alt='user pofile'/>
                     </div>
                     <div className="flex flex-col items-center gap-2">
                         <p className="text-bold text-lg">@{profileData?.username}</p>
-                        {/* <p className='text-bold text-email'></p> */}
                         {profileData?.full_name && <p className="text-lightgrey">{profileData.full_name}</p>}
                         <address className="text-lightgrey">{profileData?.email}</address>
                     </div>
@@ -74,9 +73,11 @@ export const Profile = () => {
                 </div>
             </main>
 
-            {profileData && <section className="w-full px-10 mt-5">
+            {profileData && 
+                <section className="w-full px-10 mt-5">
                     <ProfilePosts username={profileData?.username}/>
-            </section>}
+                </section>
+            }
         </div>
     )
 }

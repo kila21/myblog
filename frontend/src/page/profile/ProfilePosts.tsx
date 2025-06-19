@@ -3,6 +3,8 @@ import { Card } from "../../components/common/Card"
 import { getUserPosts } from "../../services/commonService";
 import type { PostResponseType } from "../../types/post/PostResponse";
 
+import { formatDate } from "../../utils/date";
+
 
 export const ProfilePosts = (props: {username: string}) => {
     const [posts, setPosts ] = useState<PostResponseType[]>()
@@ -30,8 +32,9 @@ export const ProfilePosts = (props: {username: string}) => {
                     return <Card 
                     img={''} 
                     title={post.title}
-                    date={post.date}
+                    date={formatDate(post.date)}
                     slug={post.slug}
+                    key={post.id + post.title}
                     />
                 })}
             </div>

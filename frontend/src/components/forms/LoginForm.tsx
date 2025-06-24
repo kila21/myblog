@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 
 import { Input } from "../common/Input"
 import { Button } from "../common/Button"
 
 import type { LoginFormDataType } from "../../types/auth/LoginFormData"
-import { loginUser } from "../../services/authService"
-import { setAuthUser } from "../../utils/auth"
-import { useNavigate } from "react-router-dom"
+import { getUserData, loginUser } from "../../services/authService"
+
+import { useAppDispatch } from "../../store/hooks"
+import { loginFailure, loginStart, loginSuccess } from "../../store/auth/authSlice"
 
 
 export const LoginForm = () =>{
@@ -15,25 +17,38 @@ export const LoginForm = () =>{
     const [value, setValue] = useState('')
     const navigate = useNavigate()
 
+    const dispatch = useAppDispatch()
+
     // form
     const {register, handleSubmit, formState: {errors}} = useForm<LoginFormDataType>()
 
     const onFormSubmit = async (data: LoginFormDataType) => {
         try {
-            const response = await loginUser(data)
-            if (response) {
-                setAuthUser(response.data.access, response.data.refresh)
+            dispatch(loginStart())
+            const userLoginResponse = await loginUser(data)
 
+            if (userLoginResponse) {
+                // save username checkmark.
                 if (remember) {
                     localStorage.setItem('username', data.username)
                 }else{
                     localStorage.removeItem('username')
                 }
+
+                const profileData = await getUserData(data.username)
+                if(profileData) {
+                    dispatch(loginSuccess({user: profileData.data, token: userLoginResponse.data.access}))
+                }
+                
                 navigate('/')
             }
-        } catch (err) {
-            console.log(err)
-        }  
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                dispatch(loginFailure(err.message));
+            } else {
+                dispatch(loginFailure('An unexpected error occurred.'));
+            }
+        }
     }
 
     useEffect(() => {

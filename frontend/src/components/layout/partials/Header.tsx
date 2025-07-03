@@ -1,24 +1,14 @@
-import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+import { useState } from 'react';
+
 
 import {Menu, X } from 'lucide-react';
+import { useAppSelector } from '../../../store/hooks';
 
 
 export const Header = () => {
     const [isOpen, setIsOpen] = useState(false)
 
-    const [isAuth, setIsAuth ] = useState(false)
-
-    const getAuthToken = () => {
-        const token = Cookies.get('access_token')
-        if (token) {
-            setIsAuth(true)
-        }
-    }
-
-    useEffect(() => {
-        getAuthToken()
-    },)
+    const isAuth = useAppSelector((state) => state.auth)
 
     return (
         <header className='flex justify-between items-center w-full h-15 fixed top-0 left-0 px-3'>
@@ -29,7 +19,7 @@ export const Header = () => {
             </nav>
 
             {/*user profile icon */}
-            {isAuth ? 
+            {isAuth.user ? 
                 <div className='w-10 h-10 rounded-full overflow-hidden border border-grey-300 shadow-sm mr-5'>
                     <img className='w-full h-full object-cover bg-white' src={'/default-profile.jpg'} alt='user-profile image'/>
                 </div>

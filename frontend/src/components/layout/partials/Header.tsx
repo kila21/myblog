@@ -16,6 +16,7 @@ export const Header = () => {
                 <Link to='/'><li>Home</li></Link>
                 <Link to='#'><li>Posts</li></Link>
                 <Link to='#'><li>Search</li></Link>
+                {isAuth.user && <Link to='/bookmarks'> Bookmarks </Link> }
             </nav>
 
             {/*user profile icon */}
@@ -36,9 +37,10 @@ export const Header = () => {
                         <X color='white' onClick={() => setIsOpen(false)}/> 
                     </button>
                     
-                    <a href='#'><li>Home</li></a>
-                    <a href='#'><li>Posts</li></a>
-                    <a href='#'><li>Search</li></a>
+                    <Link to='/'><li>Home</li></Link>
+                    <Link to='#'><li>Posts</li></Link>
+                    <Link to='#'><li>Search</li></Link>
+                    {isAuth.user && <Link to='/bookmarks'> Bookmarks </Link> }
                 </nav>
              : 
                 <div className='md:hidden' onClick={() => setIsOpen(true)}>

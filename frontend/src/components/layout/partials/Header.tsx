@@ -21,7 +21,7 @@ export const Header = () => {
             {/*user profile icon */}
             {isAuth.user ? 
                 <div className='w-10 h-10 rounded-full overflow-hidden border border-grey-300 shadow-sm mr-5'>
-                    <img className='w-full h-full object-cover bg-white' src={'/default-profile.jpg'} alt='user-profile image'/>
+                    <img className='w-full h-full object-cover bg-white' src={isAuth.user.image || '/default-profile.jpg'} alt='user-profile image'/>
                 </div>
                 :
                 <div className='w-30 h-10 mt-5'>

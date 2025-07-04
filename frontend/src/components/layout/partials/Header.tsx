@@ -1,7 +1,7 @@
 import { useState } from 'react';
-
-
+import { Link } from 'react-router-dom';
 import {Menu, X } from 'lucide-react';
+
 import { useAppSelector } from '../../../store/hooks';
 
 
@@ -13,9 +13,9 @@ export const Header = () => {
     return (
         <header className='flex justify-between items-center w-full h-15 fixed top-0 left-0 px-3'>
             <nav className='hidden w-auto h-6 md:flex items-center justify-around space-x-5 ml-2'>
-                <a href='/'><li>Home</li></a>
-                <a href='#'><li>Posts</li></a>
-                <a href='#'><li>Search</li></a>
+                <Link to='/'><li>Home</li></Link>
+                <Link to='#'><li>Posts</li></Link>
+                <Link to='#'><li>Search</li></Link>
             </nav>
 
             {/*user profile icon */}

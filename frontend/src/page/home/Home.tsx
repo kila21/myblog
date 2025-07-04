@@ -51,6 +51,9 @@ export const Home = () => {
                     img={post.image} 
                     date={formatDate(post.date)}
                     slug={post.slug}
+                    likes={post.likes_count}
+                    bookmarks={post.bookmarkes_count}
+                    views={post.view}
                     />
                 })}
             </section>

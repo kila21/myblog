@@ -3,4 +3,7 @@ export type CardPropsType = {
     title: string,
     date: string,
     slug: string,
+    views: number,
+    likes: number,
+    bookmarks: number,
 }

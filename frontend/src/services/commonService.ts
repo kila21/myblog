@@ -20,3 +20,9 @@ export const getDetailPost = (slug: string): Promise<AxiosResponse<PostResponseT
 export const getUserPosts = (username: string): Promise<AxiosResponse<PostResponseType[]>> => {
     return api.get(`/api/posts/user-posts/${username}/`)
 }
+
+
+// user interactions. (likes, bookmarks comments.)
+export const togglePostLike = (slug: string): Promise<AxiosResponse<{'likes': string}>> => {
+    return api.post(`/api/likes/${slug}/`)
+}

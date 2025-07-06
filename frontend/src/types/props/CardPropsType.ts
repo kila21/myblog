@@ -6,4 +6,6 @@ export type CardPropsType = {
     views: number,
     likes: number,
     bookmarks: number,
+    is_liked: boolean,
+    is_bookmarked: boolean
 }

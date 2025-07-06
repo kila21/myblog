@@ -35,6 +35,11 @@ export const ProfilePosts = (props: {username: string}) => {
                     date={formatDate(post.date)}
                     slug={post.slug}
                     key={post.id + post.title}
+                    likes={post.likes_count}
+                    bookmarks={post.bookmarkes_count}
+                    views={post.view}
+                    is_liked={post.is_liked}
+                    is_bookmarked={post.is_bookmarked}
                     />
                 })}
             </div>

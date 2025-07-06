@@ -37,6 +37,11 @@ export const LoginForm = () =>{
 
                 const profileData = await getUserData(data.username)
                 if(profileData) {
+                    // set toke and refreshToken into localstorage when user login.
+                    localStorage.setItem('token', userLoginResponse.data.access)
+                    localStorage.setItem('refresh', userLoginResponse.data.refresh)
+
+                    // dispatch user login
                     dispatch(loginSuccess({user: profileData.data, token: userLoginResponse.data.access}))
                 }
                 

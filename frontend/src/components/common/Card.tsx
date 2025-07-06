@@ -1,20 +1,23 @@
 import { useNavigate } from "react-router-dom"
-import type { CardPropsType } from "../../types/props/CardPropsType"
+import { useState } from "react"
 import { Bookmark, Eye, Heart } from "lucide-react"
+
 import { useAppSelector } from "../../store/hooks"
 
-import { togglePostLike } from "../../services/commonService"
-import { useState } from "react"
+import { togglePostBookmark, togglePostLike } from "../../services/commonService"
+import type { CardPropsType } from "../../types/props/CardPropsType"
 
 
 export const Card = (props: CardPropsType) =>{
     const [likeData, setLikeData] = useState<{liked: boolean, likesCount: number}>({liked: props.is_liked, likesCount: props.likes})
 
     const [bookmarkData, setBookmarkData] = useState<{bookmarked: boolean, bookmarksCount: number}>({bookmarked: props.is_bookmarked, bookmarksCount: props.bookmarks})
-
-    const navigate = useNavigate()
+    
     const authState = useAppSelector((state) => state.auth)
+    const navigate = useNavigate()
 
+
+    // like and unlike
     const handleToggleLike = async () => {
         if (authState.user) {
             try {
@@ -24,10 +27,26 @@ export const Card = (props: CardPropsType) =>{
                 } else {
                     setLikeData(prev => ({liked: true, likesCount: prev.likesCount + 1}))
                 }
-                console.log(response)
             } catch(err) {
                 // error message for ui
                 alert('Like wont Work pls try Again.' + err)
+            }
+        }
+    }
+
+    // bookmark or unbookmark
+    const handleToggleBookmark = async () => {
+        if (authState.user) {
+            try {
+                const response = await togglePostBookmark(props.slug)
+
+                if(response.status === 200 && bookmarkData.bookmarked) {
+                    setBookmarkData(prev => ({bookmarked: false, bookmarksCount: prev.bookmarksCount - 1}))
+                }else {
+                    setBookmarkData(prev => ({bookmarked: true, bookmarksCount: prev.bookmarksCount + 1}))
+                }
+            } catch (err) {
+                alert('Toggle Bookmark Wont Work, Please Try Again!.' + err)
             }
         }
     }
@@ -50,7 +69,9 @@ export const Card = (props: CardPropsType) =>{
                     <div className="flex gap-2">
                         <Bookmark 
                         className="cursor-pointer" 
-                        color={(authState.user && bookmarkData.bookmarked)? 'red' : 'grey'}/>
+                        color={(authState.user && bookmarkData.bookmarked)? 'red' : 'grey'}
+                        onClick={handleToggleBookmark}
+                        />
                         <span>{bookmarkData.bookmarksCount}</span>
                     </div>
 

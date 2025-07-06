@@ -23,6 +23,10 @@ export const getUserPosts = (username: string): Promise<AxiosResponse<PostRespon
 
 
 // user interactions. (likes, bookmarks comments.)
-export const togglePostLike = (slug: string): Promise<AxiosResponse<{'likes': string}>> => {
+export const togglePostLike = (slug: string): Promise<AxiosResponse<{likes: string}>> => {
     return api.post(`/api/likes/${slug}/`)
+}
+
+export const togglePostBookmark = (slug: string): Promise<AxiosResponse<{bookmarked: string}>> => {
+    return api.post(`api/bookmark/${slug}/`)
 }

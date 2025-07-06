@@ -54,6 +54,8 @@ export const Home = () => {
                     likes={post.likes_count}
                     bookmarks={post.bookmarkes_count}
                     views={post.view}
+                    is_liked={post.is_liked}
+                    is_bookmarked={post.is_bookmarked}
                     />
                 })}
             </section>

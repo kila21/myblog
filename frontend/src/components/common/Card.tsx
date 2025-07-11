@@ -1,18 +1,17 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { Bookmark, Eye, Heart } from "lucide-react"
+import { Eye, Heart } from "lucide-react"
 
 import { useAppSelector } from "../../store/hooks"
 
-import { togglePostBookmark, togglePostLike } from "../../services/commonService"
+import { togglePostLike } from "../../services/commonService"
 import type { CardPropsType } from "../../types/props/CardPropsType"
+import { ToggleBookmark } from "./ToggleBookmark"
 
 
 export const Card = (props: CardPropsType) =>{
     const [likeData, setLikeData] = useState<{liked: boolean, likesCount: number}>({liked: props.is_liked, likesCount: props.likes})
 
-    const [bookmarkData, setBookmarkData] = useState<{bookmarked: boolean, bookmarksCount: number}>({bookmarked: props.is_bookmarked, bookmarksCount: props.bookmarks})
-    
     const authState = useAppSelector((state) => state.auth)
     const navigate = useNavigate()
 
@@ -36,24 +35,6 @@ export const Card = (props: CardPropsType) =>{
         }
     }
 
-    // bookmark or unbookmark
-    const handleToggleBookmark = async () => {
-        if (authState.user) {
-            try {
-                const response = await togglePostBookmark(props.slug)
-
-                if(response.status === 200 && bookmarkData.bookmarked) {
-                    setBookmarkData(prev => ({bookmarked: false, bookmarksCount: prev.bookmarksCount - 1}))
-                }else {
-                    setBookmarkData(prev => ({bookmarked: true, bookmarksCount: prev.bookmarksCount + 1}))
-                }
-            } catch (err) {
-                alert('Toggle Bookmark Wont Work, Please Try Again!.' + err)
-            }
-        } else {
-            alert('You Need to Login!')
-        }
-    }
 
     return (
         <article className="flex flex-col w-80 sm:w-70">
@@ -70,14 +51,7 @@ export const Card = (props: CardPropsType) =>{
                         <span>{likeData.likesCount}</span>
                     </div>
 
-                    <div className="flex gap-2">
-                        <Bookmark 
-                        className="cursor-pointer" 
-                        color={(authState.user && bookmarkData.bookmarked)? 'red' : 'grey'}
-                        onClick={handleToggleBookmark}
-                        />
-                        <span>{bookmarkData.bookmarksCount}</span>
-                    </div>
+                    <ToggleBookmark slug={props.slug} bookmarked={props.is_bookmarked} count={props.bookmarks} />
 
                     <div className="flex gap-2">
                         <Eye color="grey"/>

@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { ArrowLeft, Eye } from "lucide-react"
+
 import { getDetailPost } from "../../services/commonService"
-import type { PostResponseType } from "../../types/post/PostResponse"
+
 import { formatDate } from "../../utils/date"
-
-import { ArrowLeft, Eye, Heart } from "lucide-react"
-
+import type { PostResponseType } from "../../types/post/PostResponse"
+import { ToggleBookmark } from "../../components/common/ToggleBookmark"
+import { ToggleLike } from "../../components/common/ToggleLike"
 
 export const DetailPost = () => {
     const { slug } = useParams<{slug: string}>()
     const navigate = useNavigate()
-    
+
+    const [loading, setIsLoading] = useState(true)
+
     const [postData, setPostData] = useState<PostResponseType>()
 
     // get full post by slug
@@ -20,6 +24,7 @@ export const DetailPost = () => {
                 const response = await getDetailPost(slug)
                 if (response.status === 200) {
                     setPostData(response.data)
+                    setIsLoading(false)
                 }
             } else {
                 navigate('/')
@@ -35,6 +40,8 @@ export const DetailPost = () => {
 
     return (
         <>
+        {loading ? <div>Loading Component!... </div> : 
+            <>
             <span className="mt-20 mb-5 ml-5 w-20 flex gap-1 cursor-pointer" onClick={() => navigate(-1)}>
                 <ArrowLeft color="white"/>
                 <span>back</span>
@@ -49,14 +56,12 @@ export const DetailPost = () => {
                 {/* post likes views tags */}
                 <section className="flex flex-col mt-5">
                     <div className="w-full flex gap-15">
-                        <div className="flex gap-3 cursor-pointer">
-                            <Heart color="white"/>
-                            <p className="text-lightgrey">{postData?.likes_count}</p>
-                        </div>
+                        <ToggleLike slug={postData!.slug} liked={postData!.is_liked} count={postData!.likes_count}/>
+                        <ToggleBookmark slug={postData!.slug} bookmarked={postData!.is_bookmarked} count={postData!.bookmarkes_count}/>
 
                         <div className="flex gap-3">
                             <Eye color="white"/>
-                            <p className="text-lightgrey">{postData?.likes_count}</p>
+                            <p className="text-lightgrey">{postData?.view}</p>
                         </div>
                     </div>
                 </section>
@@ -70,16 +75,13 @@ export const DetailPost = () => {
                 </p>
             </main>
             
-            
-
             <section className="flex flex-col px-5 my-10 md:px-10 ">
                 {postData?.tags && <h3 className="py-3">#{postData?.tags}</h3>}
                 <p className="text-md text-lightgrey break-words">
                     {postData?.description}
                 </p>
-            </section>
-
+            </section>    
+            </>}
         </>
-       
     )
 }

@@ -31,6 +31,8 @@ export const Card = (props: CardPropsType) =>{
                 // error message for ui
                 alert('Like wont Work pls try Again.' + err)
             }
+        } else {
+            alert('You Need to Login!')
         }
     }
 
@@ -48,6 +50,8 @@ export const Card = (props: CardPropsType) =>{
             } catch (err) {
                 alert('Toggle Bookmark Wont Work, Please Try Again!.' + err)
             }
+        } else {
+            alert('You Need to Login!')
         }
     }
 

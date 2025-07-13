@@ -4,6 +4,7 @@ import { CategoryDropdown } from "./CategoryDropdown"
 import { getTopPosts } from "../../services/commonService"
 import type { PostResponseType } from "../../types/post/PostResponse"
 import { formatDate } from "../../utils/date"
+import { CardSkeleton } from "../../components/skeletons/CardSkeleton"
 
 export const Home = () => {
     const [posts, setPosts] = useState<PostResponseType[]>()
@@ -21,7 +22,7 @@ export const Home = () => {
     }
 
     useEffect(() => {
-        fetchPosts()
+        // fetchPosts()
     }, [])
 
     return (
@@ -44,6 +45,7 @@ export const Home = () => {
 
             {/* top post */}
             <section className="w-full flex flex-wrap gap-10 p-10 justify-center md:justify-between mt-10">
+                {(!posts) && <CardSkeleton />}
                 { posts && posts.map((post: PostResponseType) => {
                     return <Card 
                     key={post.slug + '-' + post.id + '-' + post.author} 

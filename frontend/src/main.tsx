@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import './index.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 import MainLayout from './components/layout/MainLayout.tsx'
 import { Home } from './page/home/Home.tsx'

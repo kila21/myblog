@@ -29,7 +29,7 @@ export const Home = () => {
 
             {/* top post */}
             <section className="w-full flex flex-wrap gap-10 p-10 justify-center md:justify-between mt-10">
-                {isLoading && <CardSkeleton />}
+                {isLoading && new Array(3).fill(null).map(() => <CardSkeleton />)}
                 {error && <div>"Failed to load posts. Please try again later."</div>}
                 { data && data.map((post: PostResponseType) => {
                     return <Card 

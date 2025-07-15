@@ -5,6 +5,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import './index.css'
+
+//Skeleton 
+import { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 import MainLayout from './components/layout/MainLayout.tsx'
@@ -32,7 +35,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <SkeletonTheme baseColor="#202020" highlightColor="#444">
+        <RouterProvider router={router}/>
+      </SkeletonTheme>
     </Provider>
   </StrictMode>,
 )

@@ -7,6 +7,7 @@ import { formatDate } from "../../utils/date"
 import { ToggleBookmark } from "../../components/common/ToggleBookmark"
 import { ToggleLike } from "../../components/common/ToggleLike"
 import { useGetPostQuery } from "../../store/posts/postsService"
+import { DetailPostSkeleton } from "../../components/skeletons/DetailPostSkeleton"
 
 export const DetailPost = () => {
     const { slug } = useParams<{slug: string}>()
@@ -14,7 +15,6 @@ export const DetailPost = () => {
 
     const {
         data: post,
-        error,
         isLoading,
         isSuccess,
         isError,
@@ -23,7 +23,7 @@ export const DetailPost = () => {
 
     return (
         <>
-        {isLoading && <div>Loading Component....</div>}
+        {isLoading && <DetailPostSkeleton />}
         {isError && <div className="text-center m-20">Something went Wrong. Pls refresh the page.</div>}
         {post && isSuccess &&
             <>

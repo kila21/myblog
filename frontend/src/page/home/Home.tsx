@@ -1,29 +1,13 @@
-import { useEffect, useState } from "react"
 import { Card } from "../../components/common/Card"
 import { CategoryDropdown } from "./CategoryDropdown"
-import { getTopPosts } from "../../services/commonService"
+
 import type { PostResponseType } from "../../types/post/PostResponse"
 import { formatDate } from "../../utils/date"
 import { CardSkeleton } from "../../components/skeletons/CardSkeleton"
+import { useGetPostsQuery } from "../../store/posts/postsService"
 
 export const Home = () => {
-    const [posts, setPosts] = useState<PostResponseType[]>()
-
-    const fetchPosts = async () => {
-        try {
-            const response = await getTopPosts()
-            if (response) {
-                const data = response.data
-                setPosts(data)
-            }
-        }catch (err) {
-            console.log(err)
-        }
-    }
-
-    useEffect(() => {
-        // fetchPosts()
-    }, [])
+    const {data, error, isLoading } = useGetPostsQuery()
 
     return (
         <>
@@ -45,8 +29,9 @@ export const Home = () => {
 
             {/* top post */}
             <section className="w-full flex flex-wrap gap-10 p-10 justify-center md:justify-between mt-10">
-                {(!posts) && <CardSkeleton />}
-                { posts && posts.map((post: PostResponseType) => {
+                {isLoading && <CardSkeleton />}
+                {error && <div>"Failed to load posts. Please try again later."</div>}
+                { data && data.map((post: PostResponseType) => {
                     return <Card 
                     key={post.slug + '-' + post.id + '-' + post.author} 
                     title={post.title} 

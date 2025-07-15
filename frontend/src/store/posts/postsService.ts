@@ -11,9 +11,12 @@ export const postsApi = createApi({
     tagTypes: ['Post'],
     endpoints: (builder) => ({
         getPosts: builder.query<PostResponseType[], void>({
-            query: () => 'api/posts'
-        })
+            query: () => 'api/posts/'
+        }),
+        getPost: builder.query<PostResponseType, string>({
+            query: (slug: string) => `api/posts/detail/${slug}`
+        }),
     })
 })
 
-export const { useGetPostsQuery } = postsApi;
+export const { useGetPostsQuery, useGetPostQuery } = postsApi;

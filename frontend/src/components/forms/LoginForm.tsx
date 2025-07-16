@@ -10,6 +10,7 @@ import { getUserData, loginUser } from "../../services/authService"
 
 import { useAppDispatch } from "../../store/hooks"
 import { loginFailure, loginStart, loginSuccess } from "../../store/auth/authSlice"
+import { postsApi } from "../../store/posts/postsService"
 
 
 export const LoginForm = () =>{
@@ -43,6 +44,7 @@ export const LoginForm = () =>{
 
                     // dispatch user login
                     dispatch(loginSuccess({user: profileData.data, token: userLoginResponse.data.access}))
+                    dispatch(postsApi.util.invalidateTags(['Post']))
                 }
                 
                 navigate('/')

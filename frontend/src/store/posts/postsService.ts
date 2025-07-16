@@ -26,9 +26,41 @@ export const postsApi = createApi({
             providesTags: ['Post']
         }),
         getPost: builder.query<PostResponseType, string>({
-            query: (slug: string) => `api/posts/detail/${slug}`
+            query: (slug: string) => `api/posts/detail/${slug}`,
+            providesTags: (result, error, slug) => [{type: 'Post', id: slug}]
         }),
+
+        toggleLike: builder.mutation<{likes: string}, string>({
+            query: (slug: string) => ({
+                url: `api/likes/${slug}/`,
+                method: 'POST'
+            }),
+            invalidatesTags: (result, error, slug) => [{type: 'Post', id: slug}],
+
+            async onQueryStarted(slug, {dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled
+
+                    // get updated post data
+                    const updatedPost = await dispatch(
+                        postsApi.endpoints.getPost.initiate(slug, { forceRefetch: true })
+                    ).unwrap();
+
+                    // update post with slug inside posts data.(getPosts)
+                    dispatch(
+                        postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
+                        const index = draft.findIndex((p) => p.slug === slug);
+                            if (index !== -1) {
+                                draft[index] = updatedPost
+                            }
+                        })
+                    );
+                } catch (err) {
+                    console.error('Failed to update post like status:', err);
+                }
+            }
+        })
     })
 })
 
-export const { useGetPostsQuery, useGetPostQuery } = postsApi;
+export const { useGetPostsQuery, useGetPostQuery, useToggleLikeMutation, } = postsApi;

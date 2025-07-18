@@ -2,12 +2,12 @@ import { useState } from "react"
 import { Heart } from "lucide-react"
 
 import { useAppSelector } from "../../store/hooks"
-import { useToggleLikeMutation } from "../../store/posts/postsService"
+import { useTogglePostLikeMutation } from "../../store/posts/postsService"
 
 
 export const ToggleLike = (props: {slug: string, liked: boolean, count: number}) => {
 
-    const [toggleLike] = useToggleLikeMutation()
+    const [togglePostLike] = useTogglePostLikeMutation()
 
     const authState = useAppSelector(state => state.auth)
     const [likeData, setLikeData] = useState<{liked: boolean, likesCount: number}>({liked: props.liked, likesCount: props.count})
@@ -16,7 +16,7 @@ export const ToggleLike = (props: {slug: string, liked: boolean, count: number})
     const handleToggleLike = async () => {
         if (authState.user) {
             try {
-                const response = await toggleLike(props.slug).unwrap()
+                const response = await togglePostLike(props.slug).unwrap()
 
                 if (response.likes.startsWith('Liked')) {
                     setLikeData(prev => ({liked: true, likesCount: prev.likesCount + 1}))

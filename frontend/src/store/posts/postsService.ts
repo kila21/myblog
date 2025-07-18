@@ -27,7 +27,7 @@ export const postsApi = createApi({
         }),
         getPost: builder.query<PostResponseType, string>({
             query: (slug: string) => `api/posts/detail/${slug}`,
-            providesTags: (result, error, slug) => [{type: 'Post', id: slug}]
+            providesTags: (_result, _error, slug) => [{type: 'Post', id: slug}]
         }),
 
         toggleLike: builder.mutation<{likes: string}, string>({
@@ -35,7 +35,7 @@ export const postsApi = createApi({
                 url: `api/likes/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: (result, error, slug) => [{type: 'Post', id: slug}],
+            invalidatesTags: (_result, _error, slug) => [{type: 'Post', id: slug}],
 
             async onQueryStarted(slug, {dispatch, queryFulfilled }) {
                 try {

@@ -21,16 +21,18 @@ export const postsApi = createApi({
     }),
     tagTypes: ['Post'],
     endpoints: (builder) => ({
+        //get all posts for home page
         getPosts: builder.query<PostResponseType[], void>({
             query: () => 'api/posts/',
             providesTags: ['Post']
         }),
+        //get detail post 
         getPost: builder.query<PostResponseType, string>({
             query: (slug: string) => `api/posts/detail/${slug}`,
             providesTags: (_result, _error, slug) => [{type: 'Post', id: slug}]
         }),
-
-        toggleLike: builder.mutation<{likes: string}, string>({
+        // toggle (like/unlike)
+        togglePostLike: builder.mutation<{likes: string}, string>({
             query: (slug: string) => ({
                 url: `api/likes/${slug}/`,
                 method: 'POST'
@@ -59,8 +61,46 @@ export const postsApi = createApi({
                     console.error('Failed to update post like status:', err);
                 }
             }
+        }),
+
+        // toggle (bookmark/unboomark)
+        togglePostBookmark: builder.mutation<{bookmarked: string}, string>({
+            query: (slug: string) => ({
+                url: `api/bookmark/${slug}/`,
+                method: 'POST'
+            }),
+            invalidatesTags: (_result, _error, slug) => [{type: 'Post', id: slug}],
+
+            async onQueryStarted(slug, {dispatch, queryFulfilled}) {
+                try {
+                    await queryFulfilled
+
+                    // get new updated post data from backend
+                    const updatedPost = await dispatch(
+                        postsApi.endpoints.getPost.initiate(slug, {forceRefetch: true})
+                    ).unwrap()
+                    
+                    // update our cached memory inside redux posts data.
+                    dispatch(
+                        postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
+                            const index = draft.findIndex((p) => p.slug === slug)
+                            if(index !== -1) {
+                                draft[index] = updatedPost
+                            }
+                        })
+                    )
+                } catch (err) {
+                    console.error('Failed to update Post Bookmark status:', err)
+                }
+
+            }
         })
     })
 })
 
-export const { useGetPostsQuery, useGetPostQuery, useToggleLikeMutation, } = postsApi;
+export const { 
+    useGetPostsQuery, 
+    useGetPostQuery, 
+    useTogglePostLikeMutation, 
+    useTogglePostBookmarkMutation,
+} = postsApi;

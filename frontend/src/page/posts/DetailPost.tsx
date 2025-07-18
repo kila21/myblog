@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { ArrowLeft, Eye } from "lucide-react"
 
-
 import { formatDate } from "../../utils/date"
 
 import { ToggleBookmark } from "../../components/common/ToggleBookmark"
@@ -19,7 +18,6 @@ export const DetailPost = () => {
         isSuccess,
         isError,
     } = useGetPostQuery(slug!, {skip: !slug})
-
 
     return (
         <>

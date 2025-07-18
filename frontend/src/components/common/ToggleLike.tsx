@@ -16,7 +16,6 @@ export const ToggleLike = (props: {slug: string, liked: boolean, count: number})
     const handleToggleLike = async () => {
         if (authState.user) {
             try {
-                // const response = await togglePostLike(props.slug)
                 const response = await toggleLike(props.slug).unwrap()
 
                 if (response.likes.startsWith('Liked')) {
@@ -25,7 +24,6 @@ export const ToggleLike = (props: {slug: string, liked: boolean, count: number})
                     setLikeData(prev => ({liked: false, likesCount: prev.likesCount - 1}))
                 }
 
-                console.log(response)
             } catch(err) {
                 // error message for ui
                 alert('Like wont Work pls try Again.' + err)

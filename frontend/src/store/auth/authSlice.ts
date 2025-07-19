@@ -1,10 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import type { AuthStateType } from '../../types/store/auth/AuthStateType';
-import type { ProfileResponseType } from "../../types/auth/ProfileResponse";
 
 const initialState : AuthStateType = {
-    user: null,
+    user: false,
     token: null,
     isLoading: false,
     error: null,
@@ -19,7 +18,7 @@ const authSlice = createSlice({
             state.isLoading = true
         },
 
-        loginSuccess(state, action: PayloadAction<{user: ProfileResponseType, token: string}>) {
+        loginSuccess(state, action: PayloadAction<{user: boolean, token: string}>) {
             state.user = action.payload.user;
             state.token = action.payload.token;
             state.isLoading = false;
@@ -31,7 +30,7 @@ const authSlice = createSlice({
         },
 
         logout(state) {
-            state.user = null;
+            state.user = false;
             state.error = null;
             state.token = null;
             state.isLoading = false;

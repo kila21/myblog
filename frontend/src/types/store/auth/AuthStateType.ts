@@ -1,8 +1,5 @@
-import type { ProfileResponseType } from "../../auth/ProfileResponse";
-
-
 export interface AuthStateType {
-    user: ProfileResponseType | null;
+    user: boolean
     token: string | null;
     isLoading: boolean;
     error: string | null;

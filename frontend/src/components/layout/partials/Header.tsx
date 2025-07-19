@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import {Menu, X } from 'lucide-react';
 
 import { useAppSelector } from '../../../store/hooks';
+import { useGetAuthenticatedUserProfileQuery } from '../../../store/profile/profileService';
 
 
 export const Header = () => {
     const [isOpen, setIsOpen] = useState(false)
 
-    const isAuth = useAppSelector((state) => state.auth)
+    const username = useAppSelector((state) => state.auth.user)
+    const {data: authenticatedUser } = useGetAuthenticatedUserProfileQuery(username!) 
 
     return (
         <header className='flex justify-between items-center w-full h-15 fixed top-0 left-0 px-3'>
@@ -16,13 +18,14 @@ export const Header = () => {
                 <Link to='/'><li>Home</li></Link>
                 <Link to='#'><li>Posts</li></Link>
                 <Link to='#'><li>Search</li></Link>
-                {isAuth.user && <Link to='/bookmarks'> Bookmarks </Link> }
+                {username && <Link to='/bookmarks'> Bookmarks </Link> }
             </nav>
 
             {/*user profile icon */}
-            {isAuth.user ? 
+            {username ? 
                 <div className='w-10 h-10 rounded-full overflow-hidden border border-grey-300 shadow-sm mr-5'>
-                    <img className='w-full h-full object-cover bg-white' src={isAuth.user.image || '/default-profile.jpg'} alt='user-profile image'/>
+                    <img className='w-full h-full object-cover bg-white' src={
+                        authenticatedUser?.image || '/default-profile.jpg'} alt='user-profile image'/>
                 </div>
                 :
                 <div className='w-30 h-10 mt-5'>
@@ -40,7 +43,7 @@ export const Header = () => {
                     <Link to='/'><li>Home</li></Link>
                     <Link to='#'><li>Posts</li></Link>
                     <Link to='#'><li>Search</li></Link>
-                    {isAuth.user && <Link to='/bookmarks'> Bookmarks </Link> }
+                    {username && <Link to='/bookmarks'> Bookmarks </Link> }
                 </nav>
              : 
                 <div className='md:hidden' onClick={() => setIsOpen(true)}>

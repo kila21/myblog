@@ -16,8 +16,9 @@ import { postsApi } from "../../store/posts/postsService"
 export const LoginForm = () =>{
     const [remember, setRemember] = useState(false)
     const [value, setValue] = useState('')
-    const navigate = useNavigate()
 
+
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
     // form
@@ -35,13 +36,12 @@ export const LoginForm = () =>{
                 }else{
                     localStorage.removeItem('username')
                 }
-
                 // set toke and refreshToken into localstorage when user login.
                 localStorage.setItem('token', userLoginResponse.data.access)
                 localStorage.setItem('refresh', userLoginResponse.data.refresh)
 
                 // dispatch user login
-                dispatch(loginSuccess({user: true, token: userLoginResponse.data.access}))
+                dispatch(loginSuccess({user: data.username, token: userLoginResponse.data.access}))
                 dispatch(postsApi.util.invalidateTags(['Post']))
             }    
             navigate('/')
@@ -56,6 +56,7 @@ export const LoginForm = () =>{
     }
 
     useEffect(() => {
+        // if remember is checked into ui we set value of username automatically
         const stored = localStorage.getItem("username");
         if (stored) {
             setValue(stored);

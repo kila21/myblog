@@ -6,7 +6,7 @@ import { Input } from "../common/Input"
 import { Button } from "../common/Button"
 
 import type { LoginFormDataType } from "../../types/auth/LoginFormData"
-import { getUserData, loginUser } from "../../services/authService"
+import { loginUser } from "../../services/authService"
 
 import { useAppDispatch } from "../../store/hooks"
 import { loginFailure, loginStart, loginSuccess } from "../../store/auth/authSlice"
@@ -36,20 +36,17 @@ export const LoginForm = () =>{
                     localStorage.removeItem('username')
                 }
 
-                const profileData = await getUserData(data.username)
-                if(profileData) {
-                    // set toke and refreshToken into localstorage when user login.
-                    localStorage.setItem('token', userLoginResponse.data.access)
-                    localStorage.setItem('refresh', userLoginResponse.data.refresh)
+                // set toke and refreshToken into localstorage when user login.
+                localStorage.setItem('token', userLoginResponse.data.access)
+                localStorage.setItem('refresh', userLoginResponse.data.refresh)
 
-                    // dispatch user login
-                    dispatch(loginSuccess({user: profileData.data, token: userLoginResponse.data.access}))
-                    dispatch(postsApi.util.invalidateTags(['Post']))
-                }
-                
-                navigate('/')
-            }
-        } catch (err: unknown) {
+                // dispatch user login
+                dispatch(loginSuccess({user: true, token: userLoginResponse.data.access}))
+                dispatch(postsApi.util.invalidateTags(['Post']))
+            }    
+            navigate('/')
+            
+        } catch(err: unknown) {
             if (err instanceof Error) {
                 dispatch(loginFailure(err.message));
             } else {

@@ -25,9 +25,9 @@ export const ProfilePosts = (props: {username: string}) => {
     }, [])
 
     return (
-        <div className="w-full flex flex-col items-center gap-3 mb-10">
+        <div className="w-full flex flex-col items-center gap-3 mb-10 ">
             <h3 className="bold text-white mb-5 uppercase">{props.username}'s posts:</h3>
-            <div className="flex justify-around flex-wrap gap-10">
+            <div className="w-full flex justify-around flex-wrap gap-10">
                 {posts && posts.map((post: PostResponseType) => {
                     return <Card 
                     img={''} 

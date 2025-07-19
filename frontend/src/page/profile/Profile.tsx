@@ -73,11 +73,8 @@ export const Profile = () => {
                 </div>
             </main>
 
-            {profileData && 
-                <section className="w-full px-10 mt-5">
-                    <ProfilePosts username={profileData?.username}/>
-                </section>
-            }
+            {/* user posts */}
+            {profileData && <ProfilePosts username={profileData?.username}/>}
         </div>
     )
 }

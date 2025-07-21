@@ -1,5 +1,6 @@
+import type { PaginatedResponse } from "../PaginatedResponse"
 
-export type PostResponseType = {
+type Post = {
     author: number,
     author_username: string,
     bookmarked_by: number[],
@@ -18,3 +19,5 @@ export type PostResponseType = {
     date: string,
     likes: number[]
 }
+
+export type PostResponseType = PaginatedResponse<Post>

@@ -1,6 +1,7 @@
+import type { PaginatedResponse } from "../PaginatedResponse"
 
 
-export type ProfileResponseType = {
+type Profile = {
     id: number,
     user: number,
     username: string,
@@ -15,3 +16,5 @@ export type ProfileResponseType = {
     twitter: string | null,
     facebook: string | null,
 }
+
+export type ProfileResponseType = PaginatedResponse<Profile>

@@ -10,6 +10,7 @@ urlpatterns = [
      path('posts/detail/<slug:slug>/', api_views.PostDetailAPIView.as_view(), name='post-detail'),
      path('posts/user-posts/<str:username>/', api_views.UserPostsListView.as_view(), name='user-posts'),
      path('posts/delete/<slug:slug>/', api_views.PostDeleteApiView.as_view(), name='post-delete'),
+     path('posts/top/', api_views.MostViewedPosts.as_view(), name='top-posts'),
 
 
      ## comments

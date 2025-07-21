@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
 from rest_framework.views import Response, APIView, status
 
@@ -39,6 +39,14 @@ class PostDetailAPIView(generics.RetrieveUpdateAPIView):
         obj = get_object_or_404(api_models.Post, slug=slug)
         self.check_object_permissions(self.request, obj)
         return obj
+    
+# top posts(most viewed)
+class MostViewedPosts(generics.ListAPIView):
+    serializer_class = api_serializers.PostSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return api_models.Post.objects.order_by('-view')[:5]
 
 # get user posts by user id
 class UserPostsListView(generics.ListAPIView):

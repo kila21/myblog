@@ -4,9 +4,10 @@ from django.contrib.auth.password_validation import validate_password
 from .models import User, Profile
 
 class UserSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField(source='profile.image', read_only=True)
     class Meta:
         model = User
-        fields = ['username', 'email',]
+        fields = ['username', 'email', 'avatar']
 
 
 class ProfileSerializer(serializers.ModelSerializer):

@@ -1,5 +1,5 @@
 import { Card } from "../../components/common/Card"
-import type { PostResponseType } from "../../types/post/PostResponse";
+import type { PostType } from "../../types/post/PaginatedPostResponseType";
 
 import { formatDate } from "../../utils/date";
 
@@ -16,7 +16,7 @@ export const ProfilePosts = (props: {username: string}) => {
                 <div className="w-full flex flex-col items-center gap-3 mb-10 ">
                     <h3 className="bold text-white mb-5 uppercase">{props.username}'s posts:</h3>
                     <div className="w-full flex justify-around flex-wrap gap-10">
-                        {posts && posts.map((post: PostResponseType) => {
+                        {posts && posts.results.map((post: PostType) => {
                             return <Card 
                             img={''} 
                             title={post.title}

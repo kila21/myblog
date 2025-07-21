@@ -1,7 +1,7 @@
 import type { AxiosResponse } from "axios"
 
 import api from "./axios"
-import type { PostResponseType } from "../types/post/PostResponse"
+import type { PostResponseType } from "../types/post/PaginatedPostResponseType"
 
 // for home pages. now get all post, later shoud be top(like filter with tags.).
 export const getTopPosts = (): Promise<AxiosResponse<PostResponseType[]>> => {

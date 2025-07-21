@@ -1,7 +1,7 @@
 import { Card } from "../../components/common/Card"
 import { CategoryDropdown } from "./CategoryDropdown"
 
-import type { PostResponseType } from "../../types/post/PostResponse"
+import type { PostType } from "../../types/post/PaginatedPostResponseType"
 import { formatDate } from "../../utils/date"
 import { CardSkeleton } from "../../components/skeletons/CardSkeleton"
 import { useGetPostsQuery } from "../../store/posts/postsService"
@@ -31,7 +31,7 @@ export const Home = () => {
             <section className="w-full flex flex-wrap gap-10 p-10 justify-center md:justify-between mt-10">
                 {isLoading && new Array(3).fill(null).map((item, index) => <CardSkeleton key={item + index + 'skeleton'}/>)}
                 {error && <div>"Failed to load posts. Please try again later."</div>}
-                { data && data.map((post: PostResponseType) => {
+                { data && data.results.map((post: PostType) => {
                     return <Card 
                     key={post.slug + '-' + post.id + '-' + post.author} 
                     title={post.title} 

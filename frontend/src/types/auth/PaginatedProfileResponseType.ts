@@ -1,7 +1,7 @@
 import type { PaginatedResponse } from "../PaginatedResponse"
 
 
-type Profile = {
+export type ProfileType = {
     id: number,
     user: number,
     username: string,
@@ -17,4 +17,4 @@ type Profile = {
     facebook: string | null,
 }
 
-export type ProfileResponseType = PaginatedResponse<Profile>
+export type PaginatedProfileResponseType = PaginatedResponse<ProfileType>

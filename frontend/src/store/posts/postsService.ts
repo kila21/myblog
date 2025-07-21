@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { API_BASE_URL } from "../../constants/api";
-import type { PostResponseType } from "../../types/post/PostResponse";
+import type { PaginatedPostResponseType, PostType } from "../../types/post/PaginatedPostResponseType";
 
 import type { RootState } from '../store'
 
@@ -22,12 +22,12 @@ export const postsApi = createApi({
     tagTypes: ['Post'],
     endpoints: (builder) => ({
         //get all posts for home page
-        getPosts: builder.query<PostResponseType[], void>({
+        getPosts: builder.query<PaginatedPostResponseType, void>({
             query: () => 'api/posts/',
             providesTags: ['Post']
         }),
         //get detail post 
-        getPost: builder.query<PostResponseType, string>({
+        getPost: builder.query<PostType, string>({
             query: (slug: string) => `api/posts/detail/${slug}`,
             providesTags: (_result, _error, slug) => [{type: 'Post', id: slug}]
         }),
@@ -51,9 +51,9 @@ export const postsApi = createApi({
                     // update post with slug inside posts data.(getPosts)
                     dispatch(
                         postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
-                        const index = draft.findIndex((p) => p.slug === slug);
+                        const index = draft.results.findIndex((p) => p.slug === slug);
                             if (index !== -1) {
-                                draft[index] = updatedPost
+                                draft.results[index] = updatedPost
                             }
                         })
                     );
@@ -83,9 +83,9 @@ export const postsApi = createApi({
                     // update our cached memory inside redux posts data.
                     dispatch(
                         postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
-                            const index = draft.findIndex((p) => p.slug === slug)
+                            const index = draft.results.findIndex((p) => p.slug === slug)
                             if(index !== -1) {
-                                draft[index] = updatedPost
+                                draft.results[index] = updatedPost
                             }
                         })
                     )

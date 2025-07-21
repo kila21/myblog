@@ -6,6 +6,7 @@ from rest_framework.views import Response, APIView, status
 from api import models as api_models
 from api import serializers as api_serializers
 from users import models as users_models
+from users import serializers as users_serializers
 
 # custom permision
 from api.permissions import IsAuthorOrReadOnly
@@ -82,7 +83,26 @@ class PostDeleteApiView(generics.DestroyAPIView):
         obj = get_object_or_404(api_models.Post, slug=slug)
         self.check_object_permissions(self.request, obj)
         return obj
+
+#user list who liked post.
+class PostLikesUserListAPIView(generics.ListAPIView):
+    serializer_class = users_serializers.UserSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        post = get_object_or_404(api_models.Post, slug=slug)
+        return post.likes.all()
     
+# user list who bookmarked post.
+class PostBookmarksUserListAPIView(generics.ListAPIView):
+    serializer_class = users_serializers.UserSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        post = get_object_or_404(api_models.Post, slug=slug)
+        return post.bookmarked_by.all()
 # Likes
 ### user liked posts
 class LikedPostsView(generics.ListAPIView):

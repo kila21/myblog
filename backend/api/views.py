@@ -40,6 +40,13 @@ class PostDetailAPIView(generics.RetrieveUpdateAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
     
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.view += 1
+        instance.save(update_fields=['view'])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+    
 # top posts(most viewed)
 class MostViewedPosts(generics.ListAPIView):
     serializer_class = api_serializers.PostSerializer

@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField(source='profile.image', read_only=True)
     class Meta:
         model = User
-        fields = ['username', 'email', 'avatar']
+        fields = ['id', 'username', 'email', 'avatar']
 
 
 class ProfileSerializer(serializers.ModelSerializer):

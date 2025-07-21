@@ -18,7 +18,7 @@ class PostListAPIView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return api_models.Post.objects.all()
+        return api_models.Post.objects.all().order_by('-date')
     
 
 class PostCreateAPIView(generics.CreateAPIView):
@@ -72,7 +72,7 @@ class PostsFilterByCategory(generics.ListAPIView):
     
     def get_queryset(self):
         slug = self.kwargs['slug']
-        return api_models.Post.objects.filter(category__slug=slug)
+        return api_models.Post.objects.filter(category__slug=slug).order_by('-date')
     
 class PostDeleteApiView(generics.DestroyAPIView):
     serializer_class = api_serializers.PostSerializer
@@ -89,10 +89,11 @@ class PostLikesUserListAPIView(generics.ListAPIView):
     serializer_class = users_serializers.UserSerializer
     permission_classes = [AllowAny]
 
+
     def get_queryset(self):
         slug = self.kwargs['slug']
         post = get_object_or_404(api_models.Post, slug=slug)
-        return post.likes.all()
+        return post.likes.all().order_by('-id')
     
 # user list who bookmarked post.
 class PostBookmarksUserListAPIView(generics.ListAPIView):
@@ -102,7 +103,7 @@ class PostBookmarksUserListAPIView(generics.ListAPIView):
     def get_queryset(self):
         slug = self.kwargs['slug']
         post = get_object_or_404(api_models.Post, slug=slug)
-        return post.bookmarked_by.all()
+        return post.bookmarked_by.all().order_by('-id')
 # Likes
 ### user liked posts
 class LikedPostsView(generics.ListAPIView):
@@ -112,7 +113,7 @@ class LikedPostsView(generics.ListAPIView):
     def get_queryset(self):
         username = self.kwargs['username']
         user = users_models.User.objects.get(username=username)
-        return user.liked_posts.all()
+        return user.liked_posts.all().order_by('-date')
     
 class ToggleLikeView(APIView):
     permission_classes = [IsAuthenticated]
@@ -137,7 +138,7 @@ class BookmarkedPostsView(generics.ListAPIView):
     def get_queryset(self):
         username = self.kwargs['username']
         user = users_models.User.objects.get(username=username)
-        return user.bookmarked_posts.all()
+        return user.bookmarked_posts.all().order_by('-date')
 
 class ToggleBookmarkView(APIView):
     permission_classes = [IsAuthenticated]

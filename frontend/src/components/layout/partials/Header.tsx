@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {Menu, X } from 'lucide-react';
 
@@ -12,8 +12,21 @@ export const Header = () => {
     const username = useAppSelector((state) => state.auth.user)
     const {data: authenticatedUser } = useGetAuthenticatedUserProfileQuery(username!) 
 
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Cleanup function to be safe
+        return () => {
+            document.body.classList.remove('overflow-hidden');
+        };
+    }, [isOpen]); // Re-runs only when 'isOpen' changes
+
     return (
-        <header className='flex justify-between items-center w-full h-15 fixed top-0 left-0 px-3'>
+        <header className='z-10 flex justify-between items-center w-full h-15 fixed top-0 left-0 px-3'>
             <nav className='hidden w-auto h-6 md:flex items-center justify-around space-x-5 ml-2'>
                 <Link to='/'><li>Home</li></Link>
                 <Link to='#'><li>Posts</li></Link>
@@ -35,7 +48,7 @@ export const Header = () => {
             
             {/* mobile navigation */}
             {isOpen ? 
-                <nav className='md:hidden bg-Mainbg w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center space-y-6'>
+                <nav className='z-50 fixed overflow-hidden md:hidden left-0 top-0 bg-Mainbg w-screen h-screen flex flex-col items-center justify-center space-y-6'>
                     <button className='absolute top-6 right-6'>
                         <X color='white' onClick={() => setIsOpen(false)}/> 
                     </button>

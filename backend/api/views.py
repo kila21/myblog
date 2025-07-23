@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
 from rest_framework.views import Response, APIView, status
+from django.db.models import F
 
 from api import models as api_models
 from api import serializers as api_serializers
@@ -42,9 +43,14 @@ class PostDetailAPIView(generics.RetrieveUpdateAPIView):
         return obj
     
     def retrieve(self, request, *args, **kwargs):
+        count_view = request.query_params.get('add_view', 'true') == 'true'
+        print(count_view, request.query_params.get('add_view'))
         instance = self.get_object()
-        instance.view += 1
-        instance.save(update_fields=['view'])
+
+        if count_view:
+            instance.view = F('view') + 1
+            instance.save(update_fields=['view'])
+            instance.refresh_from_db(fields=['view'])
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
     

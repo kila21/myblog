@@ -4,10 +4,10 @@ import { CategoryDropdown } from "./CategoryDropdown"
 import type { PostType } from "../../types/post/PaginatedPostResponseType"
 import { formatDate } from "../../utils/date"
 import { CardSkeleton } from "../../components/skeletons/CardSkeleton"
-import { useGetPostsQuery } from "../../store/posts/postsService"
+import { useGetTopPostsQuery } from "../../store/posts/postsService"
 
 export const Home = () => {
-    const {data, error, isLoading } = useGetPostsQuery()
+    const {data, error, isLoading } = useGetTopPostsQuery(1)
 
     return (
         <>

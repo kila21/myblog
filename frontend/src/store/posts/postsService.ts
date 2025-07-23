@@ -19,17 +19,17 @@ export const postsApi = createApi({
             return headers
         }
     }),
-    tagTypes: ['Post'],
+    tagTypes: ['TopPost','Post'],
     endpoints: (builder) => ({
         //get all posts for home page
-        getPosts: builder.query<PaginatedPostResponseType, void>({
-            query: () => 'api/posts/',
-            providesTags: ['Post']
+        getTopPosts: builder.query<PaginatedPostResponseType, number | void>({
+            query: () => 'api/posts/top/',
+            providesTags: ['TopPost'],
         }),
         //get detail post 
         getPost: builder.query<PostType, string>({
             query: (slug: string) => `api/posts/detail/${slug}`,
-            providesTags: (_result, _error, slug) => [{type: 'Post', id: slug}]
+            providesTags: (_result, _error, slug) => [{type: 'Post', id: slug}],
         }),
         // toggle (like/unlike)
         togglePostLike: builder.mutation<{likes: string}, string>({
@@ -37,30 +37,26 @@ export const postsApi = createApi({
                 url: `api/likes/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: (_result, _error, slug) => [{type: 'Post', id: slug}],
-
-            async onQueryStarted(slug, {dispatch, queryFulfilled }) {
+            invalidatesTags: () => [{type: 'TopPost',}],
+            async onQueryStarted(slug, { dispatch, queryFulfilled }) {
                 try {
-                    await queryFulfilled
+                    await queryFulfilled;
 
-                    // get updated post data
+                    // manually refetch the post, but prevent incrementing views
                     const updatedPost = await dispatch(
-                        postsApi.endpoints.getPost.initiate(slug, { forceRefetch: true })
+                        postsApi.endpoints.getPost.initiate(`${slug}?add_view=false`, {forceRefetch: true})
                     ).unwrap();
 
-                    // update post with slug inside posts data.(getPosts)
+                    // update same post inside cached query.
                     dispatch(
-                        postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
-                        const index = draft.results.findIndex((p) => p.slug === slug);
-                            if (index !== -1) {
-                                draft.results[index] = updatedPost
-                            }
-                        })
-                    );
+                        postsApi.util.updateQueryData('getPost', slug, (draft) => {
+                            Object.assign(draft, updatedPost)
+                        }),
+                    )
                 } catch (err) {
-                    console.error('Failed to update post like status:', err);
+                    console.error('Like toggle failed:', err);
                 }
-            }
+            },
         }),
 
         // toggle (bookmark/unboomark)
@@ -69,37 +65,32 @@ export const postsApi = createApi({
                 url: `api/bookmark/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: (_result, _error, slug) => [{type: 'Post', id: slug}],
-
-            async onQueryStarted(slug, {dispatch, queryFulfilled}) {
+            invalidatesTags: () => [{type: 'TopPost'}],
+            async onQueryStarted(slug, { dispatch, queryFulfilled }) {
                 try {
-                    await queryFulfilled
+                    await queryFulfilled;
 
-                    // get new updated post data from backend
+                    // manually refetch the post, but prevent incrementing views
                     const updatedPost = await dispatch(
-                        postsApi.endpoints.getPost.initiate(slug, {forceRefetch: true})
-                    ).unwrap()
-                    
-                    // update our cached memory inside redux posts data.
+                        postsApi.endpoints.getPost.initiate(`${slug}?add_view=false`, {forceRefetch: true})
+                    ).unwrap();
+
+                    // update same post inside cached query.
                     dispatch(
-                        postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
-                            const index = draft.results.findIndex((p) => p.slug === slug)
-                            if(index !== -1) {
-                                draft.results[index] = updatedPost
-                            }
-                        })
+                        postsApi.util.updateQueryData('getPost', slug, (draft) => {
+                            Object.assign(draft, updatedPost)
+                        }),
                     )
                 } catch (err) {
-                    console.error('Failed to update Post Bookmark status:', err)
+                    console.error('Bookmark toggle failed:', err);
                 }
-
-            }
+            },
         })
     })
 })
 
 export const { 
-    useGetPostsQuery, 
+    useGetTopPostsQuery, 
     useGetPostQuery, 
     useTogglePostLikeMutation, 
     useTogglePostBookmarkMutation,

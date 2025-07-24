@@ -3,7 +3,7 @@ import type { PostType } from "../../types/post/PaginatedPostResponseType";
 
 import { formatDate } from "../../utils/date";
 
-import { useGetUserPostsQuery } from "../../store/profile/profileService";
+import { useGetUserPostsQuery } from "../../store/posts/postsService";
 
 
 export const ProfilePosts = (props: {username: string}) => {

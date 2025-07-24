@@ -19,7 +19,7 @@ export const postsApi = createApi({
             return headers
         }
     }),
-    tagTypes: ['TopPost', 'Post', 'BookmarkedPost'],
+    tagTypes: ['TopPost', 'Post', 'BookmarkedPost', 'UserPosts'],
     endpoints: (builder) => ({
         //get all posts for home page
         getTopPosts: builder.query<PaginatedPostResponseType, number | void>({
@@ -37,7 +37,7 @@ export const postsApi = createApi({
                 url: `api/likes/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}],
+            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}, {type: 'UserPosts'}],
             async onQueryStarted(slug, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
@@ -65,7 +65,7 @@ export const postsApi = createApi({
                 url: `api/bookmark/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}],
+            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}, {type: 'UserPosts'}],
             async onQueryStarted(slug, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
@@ -91,6 +91,11 @@ export const postsApi = createApi({
             query: (username: string) => `api/bookmark/${username}/all/`,
             providesTags: ['BookmarkedPost']
         }),
+
+        getUserPosts: builder.query<PaginatedPostResponseType, string>({
+            query: (username: string) => `/api/posts/user-posts/${username}/`,
+            providesTags: ['UserPosts']
+        })
     })
 })
 
@@ -100,4 +105,5 @@ export const {
     useTogglePostLikeMutation, 
     useTogglePostBookmarkMutation,
     useGetUserBookmarksQuery,
+    useGetUserPostsQuery,
 } = postsApi;

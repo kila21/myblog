@@ -19,7 +19,7 @@ export const postsApi = createApi({
             return headers
         }
     }),
-    tagTypes: ['TopPost','Post'],
+    tagTypes: ['TopPost', 'Post', 'BookmarkedPost'],
     endpoints: (builder) => ({
         //get all posts for home page
         getTopPosts: builder.query<PaginatedPostResponseType, number | void>({
@@ -37,7 +37,7 @@ export const postsApi = createApi({
                 url: `api/likes/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: () => [{type: 'TopPost',}],
+            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}],
             async onQueryStarted(slug, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
@@ -65,7 +65,7 @@ export const postsApi = createApi({
                 url: `api/bookmark/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: () => [{type: 'TopPost'}],
+            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}],
             async onQueryStarted(slug, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
@@ -85,7 +85,12 @@ export const postsApi = createApi({
                     console.error('Bookmark toggle failed:', err);
                 }
             },
-        })
+        }),
+        // get authenticated user bookmarked posts
+        getUserBookmarks: builder.query<PaginatedPostResponseType, string>({
+            query: (username: string) => `api/bookmark/${username}/all/`,
+            providesTags: ['BookmarkedPost']
+        }),
     })
 })
 
@@ -94,4 +99,5 @@ export const {
     useGetPostQuery, 
     useTogglePostLikeMutation, 
     useTogglePostBookmarkMutation,
+    useGetUserBookmarksQuery,
 } = postsApi;

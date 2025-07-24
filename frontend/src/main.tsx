@@ -17,6 +17,7 @@ import { Register } from './page/auth/Register.tsx'
 import { DetailPost } from './page/posts/DetailPost.tsx'
 import { Profile } from './page/profile/Profile.tsx'
 import { store } from './store/store.ts'
+import { Bookmark } from './page/bookmark/Bookmark.tsx'
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,8 @@ const router = createBrowserRouter([
     children:[
       {path: '/', element: <Home />},
       {path: '/post/:slug', element: <DetailPost />},
-      {path: '/profile/:username', element: <Profile />}
+      {path: '/profile/:username', element: <Profile />},
+      {path: '/bookmarks', element: <Bookmark />}
     ]
   },
   {path: '/login', element: <Login />},

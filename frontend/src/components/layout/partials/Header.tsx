@@ -10,7 +10,9 @@ export const Header = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     const username = useAppSelector((state) => state.auth.user)
-    const {data: authenticatedUser } = useGetAuthenticatedUserProfileQuery(username!) 
+    const {data: authenticatedUser } = useGetAuthenticatedUserProfileQuery(username!, {
+        skip: !username
+    }) 
 
     useEffect(() => {
         if (isOpen) {

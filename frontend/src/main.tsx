@@ -19,6 +19,7 @@ import { Profile } from './page/profile/Profile.tsx'
 import { store } from './store/store.ts'
 import { Bookmark } from './page/bookmark/Bookmark.tsx'
 import { PostList } from './page/posts/PostList.tsx'
+import { PrivateRoute } from './routes/PrivateRoute.tsx'
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
       {path: '/', element: <Home />},
       {path: '/post/:slug', element: <DetailPost />},
       {path: '/profile/:username', element: <Profile />},
-      {path: '/bookmarks', element: <Bookmark />},
+      {
+        element: <PrivateRoute />, 
+        children: [
+          {path: '/bookmarks', element: <Bookmark />},
+      ]},
       {path: '/posts', element: <PostList />}
     ]
   },

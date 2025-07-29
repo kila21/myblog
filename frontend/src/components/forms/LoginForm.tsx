@@ -39,6 +39,7 @@ export const LoginForm = () =>{
                 // set toke and refreshToken into localstorage when user login.
                 localStorage.setItem('token', userLoginResponse.data.access)
                 localStorage.setItem('refresh', userLoginResponse.data.refresh)
+                localStorage.setItem('user', data.username)
 
                 // dispatch user login
                 dispatch(loginSuccess({user: data.username, token: userLoginResponse.data.access}))

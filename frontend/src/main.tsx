@@ -20,6 +20,8 @@ import { store } from './store/store.ts'
 import { Bookmark } from './page/bookmark/Bookmark.tsx'
 import { PostList } from './page/posts/PostList.tsx'
 import { PrivateRoute } from './routes/PrivateRoute.tsx'
+import PublicOnlyRoute from './routes/PublicOnlyRoute.tsx'
+import { AuthLoader } from './components/layout/AuthLoader.tsx'
 
 const router = createBrowserRouter([
   {
@@ -37,15 +39,22 @@ const router = createBrowserRouter([
       {path: '/posts', element: <PostList />}
     ]
   },
-  {path: '/login', element: <Login />},
-  {path: '/Register', element: <Register />}
+  {
+    element: <PublicOnlyRoute />,
+    children: [
+      {path: '/login', element: <Login />},
+      {path: '/Register', element: <Register />}
+    ]
+  }
 ])
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <SkeletonTheme baseColor="#202020" highlightColor="#444">
-        <RouterProvider router={router}/>
+        <AuthLoader >
+          <RouterProvider router={router}/> 
+        </AuthLoader>
       </SkeletonTheme>
     </Provider>
   </StrictMode>,

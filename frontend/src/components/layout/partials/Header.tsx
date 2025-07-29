@@ -55,10 +55,10 @@ export const Header = () => {
                         <X color='white' onClick={() => setIsOpen(false)}/> 
                     </button>
                     
-                    <Link to='/'><li>Home</li></Link>
-                    <Link to='#'><li>Posts</li></Link>
-                    <Link to='#'><li>Search</li></Link>
-                    {username && <Link to='/bookmarks'> Bookmarks </Link> }
+                    <Link to='/' onClick={() => setIsOpen(false)}><li>Home</li></Link>
+                    <Link to='#' onClick={() => setIsOpen(false)}><li>Posts</li></Link>
+                    <Link to='#' onClick={() => setIsOpen(false)}><li>Search</li></Link>
+                    {username && <Link to='/bookmarks' onClick={() => setIsOpen(false)}> Bookmarks </Link> }
                 </nav>
              : 
                 <div className='md:hidden' onClick={() => setIsOpen(true)}>

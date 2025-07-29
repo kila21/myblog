@@ -14,7 +14,7 @@ import { postsApi } from "../../store/posts/postsService"
 
 
 export const LoginForm = () =>{
-    const [remember, setRemember] = useState(false)
+    const [remember, setRemember] = useState(localStorage.getItem("username") ? true : false)
     const [value, setValue] = useState('')
 
 
@@ -92,7 +92,7 @@ export const LoginForm = () =>{
             {/* remember me checkbox and forgot pass */}
             <div className="w-full flex justify-between">
                 <div className=" flex items-center gap-x-1">
-                    <input defaultChecked={value ? true : false} onClick={() => setRemember(!remember)} type="checkbox" name="remember" id="remember" className=" w-4 h-4"/>
+                    <input defaultChecked={remember} onClick={() => setRemember(!remember)} type="checkbox" name="remember" id="remember" className=" w-4 h-4"/>
                     <label htmlFor="remember" className="text-sm text-slate-400">Remember me</label>
                 </div>
 

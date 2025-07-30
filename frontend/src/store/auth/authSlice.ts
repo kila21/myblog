@@ -3,8 +3,8 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { AuthStateType } from '../../types/store/auth/AuthStateType';
 
 const initialState : AuthStateType = {
-    user: null,
-    token: null,
+    user: localStorage.getItem('username') || null,
+    token: localStorage.getItem('token') || null,
     isLoading: false,
     error: null,
 }

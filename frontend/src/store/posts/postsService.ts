@@ -1,24 +1,45 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, type BaseQueryFn, type FetchArgs, type FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 
 import { API_BASE_URL } from "../../constants/api";
 import type { PaginatedPostResponseType, PostType } from "../../types/post/PaginatedPostResponseType";
 
 import type { RootState } from '../store'
+import { logout } from "../auth/authSlice";
 
+const baseQuery = fetchBaseQuery({
+    baseUrl: `${API_BASE_URL}`,
+    prepareHeaders: (headers, { getState }) => {
+        const token = (getState() as RootState).auth.token
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`)
+        }
+        return headers
+    }
+})
+
+
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions)
+
+    if (result?.error?.status === 401 || result?.error?.status === 403) {
+        // Invalid or expired token
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        api.dispatch(logout())
+        // request again with no token
+        result = await baseQuery(args, api, extraOptions)
+    }
+    return result
+}
 
 
 export const postsApi = createApi({
     reducerPath: 'postsApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${API_BASE_URL}`,
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as RootState).auth.token
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`)
-            }
-            return headers
-        }
-    }),
+    baseQuery: baseQueryWithReauth,
     tagTypes: ['TopPost', 'Post', 'BookmarkedPost', 'UserPosts'],
     endpoints: (builder) => ({
         //get all posts for home page

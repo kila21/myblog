@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery, type BaseQueryFn, type FetchArgs, type FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 
 import { API_BASE_URL } from "../../constants/api";
-import type { PaginatedPostResponseType, PostType } from "../../types/post/PaginatedPostResponseType";
+import { logout } from "../auth/authSlice";
 
 import type { RootState } from '../store'
-import { logout } from "../auth/authSlice";
+import type { PaginatedPostResponseType, PostType } from "../../types/post/PaginatedPostResponseType";
+import type { PaginatedCategoryType } from "../../types/category/CategoryType";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: `${API_BASE_URL}`,
@@ -40,7 +41,7 @@ const baseQueryWithReauth: BaseQueryFn<
 export const postsApi = createApi({
     reducerPath: 'postsApi',
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['TopPost', 'Post', 'BookmarkedPost', 'UserPosts'],
+    tagTypes: ['TopPost', 'Post', 'BookmarkedPost', 'UserPosts', 'CategoryPosts'],
     endpoints: (builder) => ({
         //get all posts for home page
         getTopPosts: builder.query<PaginatedPostResponseType, number | void>({
@@ -86,7 +87,7 @@ export const postsApi = createApi({
                 url: `api/bookmark/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}, {type: 'UserPosts'}],
+            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}, {type: 'UserPosts'}, 'CategoryPosts'],
             async onQueryStarted(slug, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
@@ -116,6 +117,16 @@ export const postsApi = createApi({
         getUserPosts: builder.query<PaginatedPostResponseType, string>({
             query: (username: string) => `/api/posts/user-posts/${username}/`,
             providesTags: ['UserPosts']
+        }),
+
+        getCategories: builder.query<PaginatedCategoryType, void>({
+            query: () => 'api/category/',
+            providesTags: ['CategoryPosts']
+        }),
+
+        getPostsByCategory: builder.query<PaginatedPostResponseType, string>({
+            query: (slug: string) => `api/category/${slug}`,
+            providesTags: ['CategoryPosts']
         })
     })
 })
@@ -127,4 +138,6 @@ export const {
     useTogglePostBookmarkMutation,
     useGetUserBookmarksQuery,
     useGetUserPostsQuery,
+    useGetCategoriesQuery,
+    useGetPostsByCategoryQuery,
 } = postsApi;

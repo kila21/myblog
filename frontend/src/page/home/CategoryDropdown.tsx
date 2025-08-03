@@ -1,9 +1,14 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { useState } from 'react'
+import { useGetCategoriesQuery } from '../../store/posts/postsService'
+
+import type { CategoryType } from '../../types/category/CategoryType'
 
 export const CategoryDropdown = () => {
   const [categoryValue, setCategoryValue] = useState('Select Category')
+
+  const {data: categories } = useGetCategoriesQuery()
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -19,33 +24,20 @@ export const CategoryDropdown = () => {
         className="absolute right-0 mt-2 w-65 origin-top-right border border-[#333333] font-bold rounded-md shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         <div className="py-1">
-          <MenuItem>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-              onClick={() => setCategoryValue('Sport')}
-            >
-              Sport
-            </a>
-          </MenuItem>
-          <MenuItem>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-              onClick={() => setCategoryValue('Education')}
-            >
-              Education
-            </a>
-          </MenuItem>
-          <MenuItem>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-              onClick={() => setCategoryValue('Health')}
-            >
-              Health
-            </a>
-          </MenuItem>
+          {categories?.results && categories.results.map((item: CategoryType) => {
+            return (
+                <MenuItem key={item.title + 'as key'}>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-sm data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                    onClick={() => setCategoryValue(`${item.title}`)}
+                  >
+                    {item.title}
+                  </a>
+                </MenuItem>
+            )
+          })}
+        
         </div>
       </MenuItems>
     </Menu>

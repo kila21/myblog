@@ -59,7 +59,7 @@ export const postsApi = createApi({
                 url: `api/likes/${slug}/`,
                 method: 'POST'
             }),
-            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}, {type: 'UserPosts'}],
+            invalidatesTags: () => [{type: 'TopPost'}, {type: 'BookmarkedPost'}, {type: 'UserPosts'}, 'CategoryPosts'],
             async onQueryStarted(slug, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;

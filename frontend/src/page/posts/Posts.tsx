@@ -10,11 +10,15 @@ import type { PostType } from "../../types/post/PaginatedPostResponseType"
 import { CardSkeleton } from "../../components/skeletons/CardSkeleton"
 
 export const Posts = () => {
+    // category slug
     const [selectedCategory, setSelectedCategory ] = useState<null | string>(null)
+    // for data pagination
+    const [page, setPage ] = useState<number>(1)
 
-    const {data: posts, isLoading} = useGetPostsByCategoryQuery(selectedCategory!, {
-        skip: !selectedCategory
-    })
+    const {data: posts, isLoading} = useGetPostsByCategoryQuery(
+        {slug: selectedCategory!, page: page},
+        {skip: !selectedCategory}
+    )
 
 
     const getCategoryValue = (category: string) => {
@@ -41,6 +45,12 @@ export const Posts = () => {
                     />
                 })}
             </section>
+
+            {posts && posts.next &&
+            <button 
+            className="border-1"
+            onClick={() => setPage(page + 1)}
+            >Load More Posts...</button>}
         </div>
     )
 }

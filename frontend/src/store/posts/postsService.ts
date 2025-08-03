@@ -124,8 +124,8 @@ export const postsApi = createApi({
             providesTags: ['CategoryPosts']
         }),
 
-        getPostsByCategory: builder.query<PaginatedPostResponseType, string>({
-            query: (slug: string) => `api/category/${slug}`,
+        getPostsByCategory: builder.query<PaginatedPostResponseType, {slug: string, page?: number}>({
+            query: ({slug, page=1}) => `api/category/${slug}?page=${page}`,
             providesTags: ['CategoryPosts']
         })
     })

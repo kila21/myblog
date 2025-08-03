@@ -31,8 +31,8 @@ export const Header = () => {
         <header className='z-10 flex justify-between items-center w-full h-15 fixed top-0 left-0 px-3'>
             <nav className='hidden w-auto h-6 md:flex items-center justify-around space-x-5 ml-2'>
                 <Link to='/'><li>Home</li></Link>
-                <Link to='#'><li>Posts</li></Link>
-                <Link to='#'><li>Search</li></Link>
+                <Link to='/posts'><li>Posts</li></Link>
+                {/* <Link to='#'><li>Search</li></Link> */}
                 {username && <Link to='/bookmarks'> Bookmarks </Link> }
             </nav>
 
@@ -56,8 +56,8 @@ export const Header = () => {
                     </button>
                     
                     <Link to='/' onClick={() => setIsOpen(false)}><li>Home</li></Link>
-                    <Link to='#' onClick={() => setIsOpen(false)}><li>Posts</li></Link>
-                    <Link to='#' onClick={() => setIsOpen(false)}><li>Search</li></Link>
+                    <Link to='/posts' onClick={() => setIsOpen(false)}><li>Posts</li></Link>
+                    {/* <Link to='#' onClick={() => setIsOpen(false)}><li>Search</li></Link> */}
                     {username && <Link to='/bookmarks' onClick={() => setIsOpen(false)}> Bookmarks </Link> }
                 </nav>
              : 

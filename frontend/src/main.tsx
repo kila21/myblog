@@ -18,7 +18,7 @@ import { DetailPost } from './page/posts/DetailPost.tsx'
 import { Profile } from './page/profile/Profile.tsx'
 import { store } from './store/store.ts'
 import { Bookmark } from './page/bookmark/Bookmark.tsx'
-import { PostList } from './page/posts/PostList.tsx'
+import { Posts } from './page/posts/Posts.tsx'
 import { PrivateRoute } from './routes/PrivateRoute.tsx'
 import PublicOnlyRoute from './routes/PublicOnlyRoute.tsx'
 import { AuthLoader } from './components/layout/AuthLoader.tsx'
@@ -29,6 +29,7 @@ const router = createBrowserRouter([
     element: <MainLayout />, 
     children:[
       {path: '/', element: <Home />},
+      {path: '/posts', element: <Posts />},
       {path: '/post/:slug', element: <DetailPost />},
       {path: '/profile/:username', element: <Profile />},
       {
@@ -36,7 +37,6 @@ const router = createBrowserRouter([
         children: [
           {path: '/bookmarks', element: <Bookmark />},
       ]},
-      {path: '/posts', element: <PostList />}
     ]
   },
   {

@@ -2,7 +2,7 @@ import { useState } from "react"
 
 import { useGetCategoriesQuery } from "../../store/posts/postsService"
 
-export const CategoryList = () => {
+export const CategoryList = (props: {categoryValue: (value: string) => void}) => {
     const {data: categories } = useGetCategoriesQuery(undefined, {
         refetchOnMountOrArgChange: true
     })
@@ -17,7 +17,10 @@ export const CategoryList = () => {
                     return (
                         <div className={`w-25 h-35 md:h-40 md:w-30 rounded-md flex flex-col items-center cursor-pointer ${active === category.id ? 'border-2 border-blue-500' : 'border-1'}`}
                             key={'id of' + category.title + category.id}
-                            onClick={() => setActive(category.id)}
+                            onClick={() => {
+                                setActive(category.id)
+                                props.categoryValue(category.slug)
+                            }}
                         >
                             <img src={category.image} alt={category.title + 'posts'} className="w-full h-2/3"/>
                             <h5 className='text-sm'>{category.title}</h5>

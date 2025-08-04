@@ -135,7 +135,7 @@ export const postsApi = createApi({
         }),
 
         getPostBookmarks: builder.query<PaginatedPostLikesList, {slug: string, page?: number}>({
-            query: ({slug, page=1}) => `api/posts/liked/${slug}?page=${page}`
+            query: ({slug, page=1}) => `api/posts/bookmarked/${slug}?page=${page}`
         })
     })
 })

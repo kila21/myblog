@@ -9,9 +9,9 @@ import { useGetAuthenticatedUserProfileQuery } from '../../../store/profile/prof
 export const Header = () => {
     const [isOpen, setIsOpen] = useState(false)
 
-    const username = useAppSelector((state) => state.auth.user)
-    const {data: authenticatedUser } = useGetAuthenticatedUserProfileQuery(username!, {
-        skip: !username
+    const user = useAppSelector((state) => state.auth)
+    const {data: authenticatedUser } = useGetAuthenticatedUserProfileQuery(user.user!, {
+        skip: !user.user
     }) 
 
     useEffect(() => {
@@ -33,14 +33,14 @@ export const Header = () => {
                 <Link to='/'><li>Home</li></Link>
                 <Link to='/posts'><li>Posts</li></Link>
                 {/* <Link to='#'><li>Search</li></Link> */}
-                {username && <Link to='/bookmarks'> Bookmarks </Link> }
+                {user.user && user.token && <Link to='/bookmarks'> Bookmarks </Link> }
             </nav>
 
             {/*user profile icon */}
-            {username ? 
+            {user.token ? 
                 <div className='w-10 h-10 rounded-full overflow-hidden border border-grey-300 shadow-sm mr-5'>
                     <img className='w-full h-full object-cover bg-white' src={
-                        username && authenticatedUser?.image || '/default-profile.jpg'} alt='user-profile image'/>
+                         user.user && authenticatedUser?.image || '/default-profile.jpg'} alt='user-profile image'/>
                 </div>
                 :
                 <div className='w-30 h-10 mt-5'>
@@ -58,7 +58,7 @@ export const Header = () => {
                     <Link to='/' onClick={() => setIsOpen(false)}><li>Home</li></Link>
                     <Link to='/posts' onClick={() => setIsOpen(false)}><li>Posts</li></Link>
                     {/* <Link to='#' onClick={() => setIsOpen(false)}><li>Search</li></Link> */}
-                    {username && <Link to='/bookmarks' onClick={() => setIsOpen(false)}> Bookmarks </Link> }
+                    {user?.token && user.user && <Link to='/bookmarks' onClick={() => setIsOpen(false)}> Bookmarks </Link> }
                 </nav>
              : 
                 <div className='md:hidden' onClick={() => setIsOpen(true)}>

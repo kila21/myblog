@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 
 const PublicOnlyRoute = () => {
-  const isAuthenticated = useAppSelector(state => state.auth.user);
+  const isAuthenticated = useAppSelector(state => state.auth.token);
   return isAuthenticated ? <Navigate to="/" replace /> : <Outlet />;
 };
 

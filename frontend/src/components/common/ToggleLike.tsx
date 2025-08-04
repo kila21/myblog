@@ -2,11 +2,16 @@ import { Heart } from "lucide-react"
 
 import { useAppSelector } from "../../store/hooks"
 import { useTogglePostLikeMutation } from "../../store/posts/postsService"
+import { useState } from "react"
+import { Modal } from "../modals/Modal"
+import { UserListModal } from "../modals/UserListModal"
 
 
 export const ToggleLike = (props: {slug: string, liked: boolean, count: number}) => {
     const authState = useAppSelector(state => state.auth)
     const [togglePostLike] = useTogglePostLikeMutation()
+
+    const [isModalOpen, setIsModalOpen ] = useState(false)
 
     // like and unlike
     const handleToggleLike = async () => {
@@ -30,7 +35,11 @@ export const ToggleLike = (props: {slug: string, liked: boolean, count: number})
             color={(authState.user && props.liked) ? 'red' : 'grey'}
             onClick={handleToggleLike}
             />
-            <span>{props.count}</span>
+            <span onClick={() => setIsModalOpen(true)}>{props.count}</span>
+
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Liked by">
+                <UserListModal slug={props.slug} type='likes'/>
+            </Modal>
         </div>
     )
 }

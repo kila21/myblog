@@ -6,6 +6,7 @@ import { logout } from "../auth/authSlice";
 import type { RootState } from '../store'
 import type { PaginatedPostResponseType, PostType } from "../../types/post/PaginatedPostResponseType";
 import type { PaginatedCategoryType } from "../../types/category/CategoryType";
+import type { PaginatedPostLikesList } from "../../types/post/PaginatedPostLikesListType";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: `${API_BASE_URL}`,
@@ -127,6 +128,14 @@ export const postsApi = createApi({
         getPostsByCategory: builder.query<PaginatedPostResponseType, {slug: string, page?: number}>({
             query: ({slug, page=1}) => `api/category/${slug}?page=${page}`,
             providesTags: ['CategoryPosts']
+        }),
+
+        getPostLikes: builder.query<PaginatedPostLikesList, {slug: string, page?: number}>({
+            query: ({slug, page=1}) => `api/posts/liked/${slug}?page=${page}`
+        }),
+
+        getPostBookmarks: builder.query<PaginatedPostLikesList, {slug: string, page?: number}>({
+            query: ({slug, page=1}) => `api/posts/liked/${slug}?page=${page}`
         })
     })
 })
@@ -140,4 +149,6 @@ export const {
     useGetUserPostsQuery,
     useGetCategoriesQuery,
     useGetPostsByCategoryQuery,
+    useGetPostLikesQuery,
+    useGetPostBookmarksQuery
 } = postsApi;

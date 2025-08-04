@@ -3,17 +3,13 @@ import { useNavigate } from "react-router-dom"
 import { useGetPostBookmarksQuery, useGetPostLikesQuery } from "../../store/posts/postsService"
 
 export const UserListModal = (props: {type: 'likes' | 'bookmarks', slug: string}) => {
-    const {data: likesData} = useGetPostLikesQuery({
-        slug: props.slug,
-        page: 1
-    }, { refetchOnMountOrArgChange: true, skip: props.type === 'bookmarks'})
+    const query = props.type === 'likes'
+    ? useGetPostLikesQuery
+    : useGetPostBookmarksQuery;
 
-    const {data: bookmarksData} = useGetPostBookmarksQuery({
-        slug: props.slug,
-        page: 1
-    }, {refetchOnMountOrArgChange: true, skip: props.type === 'likes'})
-
-    const users = props.type === 'likes' ? likesData : bookmarksData
+    const { data: users } = query({slug: props.slug!,page: 1}, {
+        skip: !props.slug,
+    })
 
     const navigate = useNavigate()
     return (

@@ -5,7 +5,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black opacity-97 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg p-5 w-96 relative">
+      <div className="bg-white rounded-lg p-5 md:w-96 w-70 relative">
         {title && <h2 className="text-lg font-bold mb-3">{title}</h2>}
         <button
           onClick={onClose}

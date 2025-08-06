@@ -44,10 +44,11 @@ export const LoginForm = () =>{
                 // dispatch user login
                 dispatch(loginSuccess({user: data.username, token: userLoginResponse.data.access}))
                 dispatch(postsApi.util.invalidateTags(['Post']))
+                navigate('/') 
             }    
-            navigate('/')
             
         } catch(err: unknown) {
+            console.log('err')
             if (err instanceof Error) {
                 dispatch(loginFailure(err.message));
             } else {

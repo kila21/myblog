@@ -25,12 +25,20 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if(error.response && error.response.status === 401) {
+            const originalRequest = error.config;
+            const token = localStorage.getItem('token');
+
+            if (originalRequest.url.includes('/users/token/') && !token) {
+                return Promise.reject(error);
+            }
+
             console.log('Token expired or Invalid. Logging out ...')
             localStorage.removeItem('token')
-            window.location.reload()
+            // window.location.reload()
+            // window.location.href = '/login'; // or navigate()
         }
-    }
-    
+        return Promise.reject(error);
+    }    
 )
 
 export default api

@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import axios from "axios"
 
 import { Input } from "../common/Input"
 import { Button } from "../common/Button"
 
-import type { LoginFormDataType } from "../../types/auth/LoginFormData"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { loginUser } from "../../services/authService"
-
-import { useAppDispatch } from "../../store/hooks"
-import { loginFailure, loginStart, loginSuccess } from "../../store/auth/authSlice"
 import { postsApi } from "../../store/posts/postsService"
+import { loginFailure, loginStart, loginSuccess } from "../../store/auth/authSlice"
+
+import type { LoginFormDataType } from "../../types/auth/LoginFormData"
 
 
 export const LoginForm = () =>{
     const [remember, setRemember] = useState(localStorage.getItem("username") ? true : false)
     const [value, setValue] = useState('')
 
+    const { error } = useAppSelector(state => state.auth)
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -47,12 +49,19 @@ export const LoginForm = () =>{
                 navigate('/') 
             }    
             
-        } catch(err: unknown) {
-            console.log('err')
-            if (err instanceof Error) {
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+                // Try to get a meaningful message from the API
+                const apiMessage =
+                    err.response?.data?.detail || // Django REST default error format
+                    err.response?.data?.message || 
+                    "Invalid username or password";
+
+                dispatch(loginFailure(apiMessage));
+            } else if (err instanceof Error) {
                 dispatch(loginFailure(err.message));
             } else {
-                dispatch(loginFailure('An unexpected error occurred.'));
+                dispatch(loginFailure("An unexpected error occurred."));
             }
         }
     }
@@ -78,6 +87,12 @@ export const LoginForm = () =>{
             aria-invalid={errors.username ? "true" : "false"}
             aria-describedby={errors.username ? "error" : undefined}
             />
+            {error && (
+                <div className="text-red-500 text-sm">
+                    {error}
+                </div>
+            )}
+
 
             <Input 
             type='password' 
@@ -105,9 +120,9 @@ export const LoginForm = () =>{
             </div>
 
             {/* button for submit */}
-            <div className="w-full">
-                <Button type="submit" variant="auth" loading='false' className="w-full cursor-pointer">Login</Button>
-            </div>
+           
+            <Button type="submit" variant="auth" loading='false' className="w-full cursor-pointer">Login</Button>
+            
         </form>
     )
     

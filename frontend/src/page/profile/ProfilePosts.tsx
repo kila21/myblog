@@ -14,11 +14,11 @@ export const ProfilePosts = (props: {username: string}) => {
             {isError && <div className="text-center">Some Error, Posts Aren'n Avaliable!</div>}
             {posts && 
                 <div className="w-full flex flex-col items-center gap-3 mb-10 ">
-                    <h3 className="bold text-white mb-5 uppercase">{props.username}'s posts:</h3>
+                    <h3 className="bold text-white mb-5 uppercase">{props.username}'s latess posts:</h3>
                     <div className="w-full flex justify-around flex-wrap gap-10">
                         {posts && posts.results.map((post: PostType) => {
                             return <Card 
-                            img={''} 
+                            img={post.image} 
                             title={post.title}
                             date={formatDate(post.date)}
                             slug={post.slug}

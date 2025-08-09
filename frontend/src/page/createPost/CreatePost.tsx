@@ -7,12 +7,13 @@ import type { CreatePostFormDataType } from "../../types/post/CreatePostFormData
 
 
 export const CreatePost = () => {
-    const { register, handleSubmit, formState: {errors} } = useForm<CreatePostFormDataType>();
+    const { register, handleSubmit, formState: {errors}, watch } = useForm<CreatePostFormDataType>();
 
     const { data: categories } = useGetCategoriesQuery();
     const [createPost, { isLoading, isSuccess, error }] = useCreatePostMutation();
 
     const navigate = useNavigate();
+    const selectedImage = watch('image');
 
     const onSubmit = async (data: CreatePostFormDataType) => {
         const postData = new FormData();
@@ -57,6 +58,12 @@ export const CreatePost = () => {
                         <input id="image" type="file" accept="image/*"
                          className={`ml-2 w-2/3 border-1 hidden`}
                          {...register("image", { required: true })} />
+
+                        {selectedImage && selectedImage.length > 0 && 
+                         <p className="text-green-600 text-sm">
+                            ✅{selectedImage[0].name} uploaded successfully!
+                         </p>
+                        }
                     </div>
 
                     <div>

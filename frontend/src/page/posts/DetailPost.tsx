@@ -33,8 +33,10 @@ export const DetailPost = () => {
                 <h1 className="text-bold uppercase mb-5">{post?.title}</h1>
                 <hr className="gradiant-main h-0.5 w-25 border-none"/>
                 
-                {/* <img src={post?.image} alt="post image"/> */}
-                <div className="mt-10 min-w-60 h-48 bg-amber-100 rounded-2xl"></div>
+                <img className="mt-10 min-w-60 h-48 bg-amber-100 rounded-2xl"
+                 src={post?.image!}
+                 alt={`${post.slug} + image`}/>
+                
 
                 {/* post likes views tags */}
                 <section className="flex flex-col mt-5">

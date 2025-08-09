@@ -13,7 +13,7 @@ export const UserListModal = (props: {type: 'likes' | 'bookmarks', slug: string}
 
     const navigate = useNavigate()
     return (
-        <div className="text-black">
+        <div className="text-white">
             <ul className="w-full flex flex-col gap-5 uppercase text-bold mt-15">
                 {
                     users?.results && users.results.map((user) => {
@@ -32,6 +32,8 @@ export const UserListModal = (props: {type: 'likes' | 'bookmarks', slug: string}
                         )
                     })
                 }
+                {users?.results && users.results.length === 0 &&
+                 <div className="text-center">No User Have Interacted yet!</div>}
             </ul>
         </div>
     )

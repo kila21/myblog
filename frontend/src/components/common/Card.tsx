@@ -10,8 +10,7 @@ export const Card = (props: CardPropsType) =>{
     const navigate = useNavigate()
     return (
         <article className="flex flex-col w-80 sm:w-70">
-            {/* <img src="" alt=""/> */}
-            <div className="w-full h-48 bg-amber-100 rounded-2xl cursor-pointer" onClick={() => navigate(`/post/${props.slug}`)}></div>
+            <img src={props.img!} alt={props.slug + 'image'} onClick={() => navigate(`/post/${props.slug}`)}/>
             <div className="w-full pl-3 mt-4 flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                     <ToggleLike slug={props.slug} liked={props.is_liked} count={props.likes} />

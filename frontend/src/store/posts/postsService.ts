@@ -54,6 +54,14 @@ export const postsApi = createApi({
             query: (slug: string) => `api/posts/detail/${slug}`,
             providesTags: (_result, _error, slug) => [{type: 'Post', id: slug}],
         }),
+        // create post
+        createPost: builder.mutation<any,FormData>({
+            query: (formData: FormData) => ({
+                url: 'api/posts/create/',
+                method: 'POST',
+                body: formData,
+            })
+        }),
         // toggle (like/unlike)
         togglePostLike: builder.mutation<{likes: string}, string>({
             query: (slug: string) => ({
@@ -150,5 +158,6 @@ export const {
     useGetCategoriesQuery,
     useGetPostsByCategoryQuery,
     useGetPostLikesQuery,
-    useGetPostBookmarksQuery
+    useGetPostBookmarksQuery,
+    useCreatePostMutation,
 } = postsApi;

@@ -22,6 +22,7 @@ import { Posts } from './page/posts/Posts.tsx'
 import { PrivateRoute } from './routes/PrivateRoute.tsx'
 import PublicOnlyRoute from './routes/PublicOnlyRoute.tsx'
 import { AuthLoader } from './components/layout/AuthLoader.tsx'
+import { CreatePost } from './page/createPost/CreatePost.tsx'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
         element: <PrivateRoute />, 
         children: [
           {path: '/bookmarks', element: <Bookmark />},
+          {path: '/create-post', element: <CreatePost />},
       ]},
     ]
   },

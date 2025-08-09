@@ -44,6 +44,7 @@ export const Posts = () => {
                     is_bookmarked={post.is_bookmarked}
                     />
                 })}
+                {posts?.results && posts.results.length === 0 && <div className="w-full text-center">No Post With this category.</div>} 
             </section>
 
             {posts && posts.next &&

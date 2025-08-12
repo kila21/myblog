@@ -34,6 +34,7 @@ export const Header = () => {
                 <Link to='/posts'><li>Posts</li></Link>
                 {/* <Link to='#'><li>Search</li></Link> */}
                 {user.user && user.token && <Link to='/bookmarks'> Bookmarks </Link> }
+                {user.user && user.token && <Link to='/create-post'>New Post </Link> }
             </nav>
 
             {/*user profile icon */}
@@ -59,6 +60,7 @@ export const Header = () => {
                     <Link to='/posts' onClick={() => setIsOpen(false)}><li>Posts</li></Link>
                     {/* <Link to='#' onClick={() => setIsOpen(false)}><li>Search</li></Link> */}
                     {user?.token && user.user && <Link to='/bookmarks' onClick={() => setIsOpen(false)}> Bookmarks </Link> }
+                    {user.user && user.token && <Link to='/create-post' onClick={() => setIsOpen(false)}> New Post </Link> }
                 </nav>
              : 
                 <div className='md:hidden' onClick={() => setIsOpen(true)}>

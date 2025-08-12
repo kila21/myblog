@@ -24,7 +24,6 @@ export const CreatePost = () => {
         try {
             await createPost(postData);
             if (isSuccess) {
-                console.log("Post created successfully");
                 alert("Post created successfully:");
                 navigate('/')
             } else if (error) {
@@ -35,7 +34,7 @@ export const CreatePost = () => {
         }
     }
     return (
-        <div className="w-full flex flex-col items-center justify-center">
+        <div className="w-full flex flex-col items-center justify-center mb-10">
             <h1 className="text-2xl font-bold mb-4">Create Post</h1>
             <div className="w-3/4 max-w-2xl p-6 bg-[#292C36] rounded-lg shadow-md 
             border-4 border-solid border-[#3A3D46]">

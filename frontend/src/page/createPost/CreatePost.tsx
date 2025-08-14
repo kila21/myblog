@@ -43,7 +43,7 @@ export const CreatePost = () => {
                     <div>
                         <label htmlFor='title' className="block">Post Title</label>
                         <input id="title" type="text"
-                         className={`mt-1 block w-full border-1 px-3 font-sm text-[#B0B3BC]
+                         className={`mt-1 block h-10 w-full border-1 px-3 font-sm text-[#B0B3BC]
                           rounded-md outline-0 ${errors?.title ? 'border-red-500' : 'border-white'}`}
                           placeholder="Enter post title"
                          {...register("title", { required: true })}
@@ -79,7 +79,7 @@ export const CreatePost = () => {
                     <div>
                         <label htmlFor='category' className="block ">Choose Category: </label>
                         <select id="category"
-                          className="block w-1/3 mt-2 border-1 px-3 outline-0 bg-[#23262F]"
+                          className="block w-2/3 sm:w-1/3 h-8 mt-2 border-1 px-3 outline-0 bg-[#23262F]"
                           {...register("category", { required: true })}
                          >
                             {categories?.results && categories.results.map((category) => {

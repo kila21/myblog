@@ -13,15 +13,13 @@ export const Button = forwardRef((props: ButtonPropsType, ref: Ref<HTMLButtonEle
     }
 
     return (
-        <div>
-            <button 
-            ref={ref}
-            type={type} 
-            className={`${variantStyles[props.variant]} ${className ? className : ''}`}
-            {...buttonprops} 
+            <button
+             ref={ref}
+             type={type} 
+             className={`${variantStyles[props.variant]} ${className ? className : ''}`}
+             {...buttonprops} 
             >
                 {children}
             </button>
-        </div>
     )
 });

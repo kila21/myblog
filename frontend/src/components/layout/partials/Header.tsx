@@ -59,7 +59,7 @@ export const Header = () => {
                             user.user && authenticatedUser?.image || '/default-profile.jpg'} alt='user-profile image'/>
                     </div>
                     {toggleMenu && (
-                        <UserMenu />
+                        <UserMenu close={() => setToggleMenu(false)}/>
                     )}
                 </div>
                 ):

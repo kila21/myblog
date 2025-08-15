@@ -6,7 +6,11 @@ import { ChangePassword } from "../../modals/ChangePassword"
 import { Modal } from "../../modals/Modal"
 import { useState } from "react"
 
-export const UserMenu = () => {
+interface userMenuProps {
+    close: () => void;
+}
+
+export const UserMenu = ({close}: userMenuProps) => {
     const user = useAppSelector((state) => state.auth)
     const dispatch = useAppDispatch()
 
@@ -16,14 +20,15 @@ export const UserMenu = () => {
         <div className="w-50 absolute md:right-2 top-12
          rounded-2xl overflow-hidden border-2 border-neon-green mr-5 bg-[#23262F] z-50">
             <ol>
-                <Link to={user.token && user.user && `/profile/${user.user}` || '#'} className="block px-8 py-1 border-b-[#31343C] border-b-1">
+                <Link onClick={close} to={user.token && user.user && `/profile/${user.user}` || '#'} className="block px-8 py-1 border-b-[#31343C] border-b-1">
                     <li className="list-disc text-white font-bold text-sm mb-2">
                         Profile
                     </li>
                 </Link>
 
                 <Link to='#' className="block px-8 py-1 border-b-[#31343C] border-b-1"
-                    onClick={() => setOpenChangePassword(true)}>
+                    onClick={() => setOpenChangePassword(true)}
+                    >
                     <li className="list-disc text-white font-bold text-sm mb-2">
                         Change Password
                     </li>

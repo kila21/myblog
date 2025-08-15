@@ -1,11 +1,16 @@
 import { Link } from "react-router-dom"
 
 import { useAppDispatch, useAppSelector } from "../../../store/hooks"
-import { logout } from "../../../store/auth/authSlice"
+import { changePasswordFailure, logout } from "../../../store/auth/authSlice"
+import { ChangePassword } from "../../modals/ChangePassword"
+import { Modal } from "../../modals/Modal"
+import { useState } from "react"
 
 export const UserMenu = () => {
     const user = useAppSelector((state) => state.auth)
     const dispatch = useAppDispatch()
+
+    const [openChangePassword, setOpenChangePassword] = useState(false)
 
     return (
         <div className="w-50 absolute md:right-2 top-12
@@ -17,11 +22,20 @@ export const UserMenu = () => {
                     </li>
                 </Link>
 
-                <Link to='/profile' className="block px-8 py-1 border-b-[#31343C] border-b-1">
+                <Link to='#' className="block px-8 py-1 border-b-[#31343C] border-b-1"
+                    onClick={() => setOpenChangePassword(true)}>
                     <li className="list-disc text-white font-bold text-sm mb-2">
                         Change Password
                     </li>
                 </Link>
+                {openChangePassword && 
+                    <Modal isOpen={openChangePassword} onClose={() => (
+                        setOpenChangePassword(false),
+                        dispatch(changePasswordFailure(null))
+                        )}> 
+                        <ChangePassword />
+                    </Modal>
+                }
 
                 <Link to='/profile' className="block px-8 py-1 border-b-[#31343C] border-b-1">
                     <li className="list-disc text-white font-bold text-sm mb-2">

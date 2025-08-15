@@ -31,8 +31,6 @@ api.interceptors.response.use(
             if (originalRequest.url.includes('/users/token/') && !token) {
                 return Promise.reject(error);
             }
-
-            console.log('Token expired or Invalid. Logging out ...')
             localStorage.removeItem('token')
             // window.location.reload()
             // window.location.href = '/login'; // or navigate()

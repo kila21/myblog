@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { useAppDispatch, useAppSelector } from "../../../store/hooks"
 import { changePasswordFailure, logout } from "../../../store/auth/authSlice"
@@ -13,6 +13,7 @@ interface userMenuProps {
 export const UserMenu = ({close}: userMenuProps) => {
     const user = useAppSelector((state) => state.auth)
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     const [openChangePassword, setOpenChangePassword] = useState(false)
 
@@ -44,11 +45,11 @@ export const UserMenu = ({close}: userMenuProps) => {
 
                 <Link to='/profile' className="block px-8 py-1 border-b-[#31343C] border-b-1">
                     <li className="list-disc text-white font-bold text-sm mb-2">
-                        Settings
+                        Edit Profile
                     </li>
                 </Link>
 
-                <Link to={'#'} onClick={() => dispatch(logout())} className="block px-8 py-1 border-b-[#31343C] border-b-1">
+                <Link to={'#'} onClick={() => (dispatch(logout(), navigate('/')))} className="block px-8 py-1 border-b-[#31343C] border-b-1">
                     <li className="list-disc text-[#22E6A6] font-bold text-sm mb-2">
                         Logout
                     </li>

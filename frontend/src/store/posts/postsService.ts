@@ -62,6 +62,20 @@ export const postsApi = createApi({
                 body: formData,
             })
         }),
+        // delete post
+        deletePost: builder.mutation<any, string>({
+            query: (slug: string) => ({
+                url: `api/posts/delete/${slug}/`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: (_result, _error, slug) => [
+                {type: 'Post', id: slug},
+                {type: 'UserPosts'}, 
+                {type: 'TopPost'},
+                {type: 'BookmarkedPost'},
+                'CategoryPosts'
+            ],
+        }),
         // toggle (like/unlike)
         togglePostLike: builder.mutation<{likes: string}, string>({
             query: (slug: string) => ({
@@ -160,4 +174,5 @@ export const {
     useGetPostLikesQuery,
     useGetPostBookmarksQuery,
     useCreatePostMutation,
+    useDeletePostMutation,
 } = postsApi;

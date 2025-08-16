@@ -1,16 +1,20 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { ArrowLeft, Eye } from "lucide-react"
 
+import { DetailPostMenu } from "./DetailPostMenu"
+
 import { formatDate } from "../../utils/date"
 
 import { ToggleBookmark } from "../../components/common/ToggleBookmark"
 import { ToggleLike } from "../../components/common/ToggleLike"
 import { useGetPostQuery } from "../../store/posts/postsService"
 import { DetailPostSkeleton } from "../../components/skeletons/DetailPostSkeleton"
+import { useAppSelector } from "../../store/hooks"
 
 export const DetailPost = () => {
     const { slug } = useParams<{slug: string}>()
     const navigate = useNavigate()
+    const user = useAppSelector((state) => state.auth)
 
     const {
         data: post,
@@ -25,10 +29,16 @@ export const DetailPost = () => {
         {isError && <div className="text-center m-20">Something went Wrong. Pls refresh the page.</div>}
         {post && isSuccess &&
             <>
-            <span className="mt-20 mb-5 ml-5 w-20 flex gap-1 cursor-pointer" onClick={() => navigate(-1)}>
-                <ArrowLeft color="white"/>
-                <span>back</span>
-            </span>
+            <div className="flex justify-between w-full px-5 mt-15">
+                <span className="w-20 flex gap-1 cursor-pointer" onClick={() => navigate(-1)}>
+                    <ArrowLeft color="white"/>
+                    <span>back</span>
+                </span>
+                <DetailPostMenu
+                    author={post?.author_username === user?.user}
+                    slug={post?.slug}
+                 />  
+            </div>
             <main className="flex flex-col items-center px-5">
                 <h1 className="text-bold uppercase mb-5">{post?.title}</h1>
                 <hr className="gradiant-main h-0.5 w-25 border-none"/>

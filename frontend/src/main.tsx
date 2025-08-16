@@ -9,6 +9,7 @@ import './index.css'
 //Skeleton 
 import { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { store } from './store/store.ts'
 
 import MainLayout from './components/layout/MainLayout.tsx'
 import { Home } from './page/home/Home.tsx'
@@ -16,13 +17,15 @@ import { Login } from './page/auth/Login.tsx'
 import { Register } from './page/auth/Register.tsx'
 import { DetailPost } from './page/posts/DetailPost.tsx'
 import { Profile } from './page/profile/Profile.tsx'
-import { store } from './store/store.ts'
 import { Bookmark } from './page/bookmark/Bookmark.tsx'
 import { Posts } from './page/posts/Posts.tsx'
 import { PrivateRoute } from './routes/PrivateRoute.tsx'
-import PublicOnlyRoute from './routes/PublicOnlyRoute.tsx'
 import { AuthLoader } from './components/layout/AuthLoader.tsx'
 import { CreatePost } from './page/createPost/CreatePost.tsx'
+
+import PublicOnlyRoute from './routes/PublicOnlyRoute.tsx'
+import { EditPost } from './page/posts/EditPost.tsx'
+
 
 const router = createBrowserRouter([
   {
@@ -31,7 +34,10 @@ const router = createBrowserRouter([
     children:[
       {path: '/', element: <Home />},
       {path: '/posts', element: <Posts />},
-      {path: '/post/:slug', element: <DetailPost />},
+      {path: '/post/:slug', children: [
+        {index: true, element: <DetailPost />},
+        {path: 'edit', element: <EditPost />,},
+      ]},
       {path: '/profile/:username', element: <Profile />},
       {
         element: <PrivateRoute />, 

@@ -15,7 +15,7 @@ export const EditPost = () => {
         skip: !slug
     })
 
-    const [ updatePost, isLoading ] = useUpdatePostMutation();
+    const [ updatePost ] = useUpdatePostMutation();
 
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm<CreatePostFormDataType>();
     const selectedImage = watch('image');

@@ -62,6 +62,20 @@ export const postsApi = createApi({
                 body: formData,
             })
         }),
+        updatePost: builder.mutation<any, {slug:string, formData: FormData}>({
+            query: ({slug, formData}) => ({
+                url: `api/posts/detail/${slug}/`,
+                method: 'PATCH',
+                body: formData,
+            }),
+            invalidatesTags: (_result, _error, {slug}) => [
+                {type: 'Post', id: slug},
+                {type: 'UserPosts'},
+                {type: 'TopPost'},
+                {type: 'BookmarkedPost'},
+                'CategoryPosts'
+            ],
+        }),
         // delete post
         deletePost: builder.mutation<any, string>({
             query: (slug: string) => ({
@@ -174,5 +188,6 @@ export const {
     useGetPostLikesQuery,
     useGetPostBookmarksQuery,
     useCreatePostMutation,
+    useUpdatePostMutation,
     useDeletePostMutation,
 } = postsApi;

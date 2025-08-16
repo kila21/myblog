@@ -1,12 +1,16 @@
 import { useState } from "react";
 
 import { useDeletePostMutation } from "../../store/posts/postsService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const DetailPostMenu = (props: {author: boolean, slug: string}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [ deletePost] = useDeletePostMutation()
+    const [ deletePost ] = useDeletePostMutation()
+
+    // Use useNavigate to programmatically navigate after edit and delete actions
     const navigate = useNavigate();
+    // Extract slug from params
+    const { slug } = useParams<{slug: string}>();
 
     const handleDelete = async () => {
         try {
@@ -25,7 +29,7 @@ export const DetailPostMenu = (props: {author: boolean, slug: string}) => {
                     <div className="absolute right-10 top-7 w-40
                     rounded-lg shadow-lg bg-Mainbg border-1 border-lightgrey">
                         <ul className="flex flex-col gap-2 items-center cursor-pointer">
-                            <li>Edit Post</li>
+                            <li onClick={() => navigate(`/post/${slug}/edit`)}>Edit Post</li>
                             <li className="text-neon-green"
                                 onClick={() => handleDelete()}
                                 >
